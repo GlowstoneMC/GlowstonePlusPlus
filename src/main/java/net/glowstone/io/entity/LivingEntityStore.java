@@ -111,7 +111,7 @@ public abstract class LivingEntityStore<T extends GlowLivingEntity> extends Enti
         Optional<CompoundTag> maybeLeash = compound.tryGetCompound("Leash");
         if (maybeLeash.isPresent()) {
             CompoundTag leash = maybeLeash.get();
-            if (!leash.readUuid("UUIDMost", "UUIDLeast", entity::setLeashHolderUniqueId)
+            if (!leash.readUniqueId("UUIDMost", "UUIDLeast", entity::setLeashHolderUniqueId)
                 && leash.isInt("X") && leash.isInt("Y") && leash.isInt("Z")) {
                 int x = leash.getInt("X");
                 int y = leash.getInt("Y");

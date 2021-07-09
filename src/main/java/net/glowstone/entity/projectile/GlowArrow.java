@@ -164,7 +164,7 @@ public class GlowArrow extends GlowProjectile implements Arrow {
     }
 
     @Override
-    public PickupStatus getPickupStatus() {
+    public @NotNull PickupStatus getPickupStatus() {
         PickupStatus customPickupStatus = this.customPickupStatus;
         return customPickupStatus != null ? customPickupStatus :
             getShooter() instanceof Monster ? PickupStatus.DISALLOWED :
@@ -172,7 +172,7 @@ public class GlowArrow extends GlowProjectile implements Arrow {
     }
 
     @Override
-    public void setPickupStatus(PickupStatus pickupStatus) {
+    public void setPickupStatus(@NotNull PickupStatus pickupStatus) {
         customPickupStatus = pickupStatus;
     }
 
@@ -207,7 +207,7 @@ public class GlowArrow extends GlowProjectile implements Arrow {
     }
 
     @Override
-    public Arrow.Spigot spigot() {
+    public Arrow.@NotNull Spigot spigot() {
         return spigot;
     }
 

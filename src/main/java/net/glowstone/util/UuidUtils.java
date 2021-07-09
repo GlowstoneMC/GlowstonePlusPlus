@@ -1,5 +1,7 @@
 package net.glowstone.util;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.eatthepath.uuid.FastUUID;
 import java.util.UUID;
 
@@ -59,5 +61,34 @@ public final class UuidUtils {
      */
     public static String toFlatString(UUID uuid) {
         return toString(uuid).replace("-", "");
+    }
+
+    /**
+     * Convert a UUID to its Int-Array representation.
+     *
+     * @param uuid a UUID
+     * @return the Int-Array representation of the UUID
+     */
+    public static int[] toIntArray(UUID uuid) {
+        return new int[] {
+            (int) (uuid.getMostSignificantBits() >> 32),
+            (int) uuid.getMostSignificantBits(),
+            (int) (uuid.getLeastSignificantBits() >> 32),
+            (int) uuid.getLeastSignificantBits()
+        };
+    }
+
+    /**
+     * Parses a UUID from an Int-Array representation.
+     *
+     * @param arr the int array containint the representation
+     * @return a UUID
+     */
+    public static UUID fromIntArray(int[] arr) {
+        checkArgument(arr.length == 4);
+
+        long mostSigBits = (long) arr[0] << 32 | arr[1] & 0xFFFFFFFFL;
+        long leastSigBits = (long) arr[2] << 32 | arr[2] & 0xFFFFFFFFL;
+        return new UUID(mostSigBits, leastSigBits);
     }
 }

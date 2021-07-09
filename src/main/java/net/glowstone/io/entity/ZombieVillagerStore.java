@@ -15,6 +15,9 @@ import org.bukkit.entity.Villager;
 public class ZombieVillagerStore extends ZombieStore<GlowZombieVillager> {
 
     private static final Villager.Profession[] PROFESSIONS = Villager.Profession.values();
+    public static final String PROFESSION = "Profession";
+    public static final String CONVERSION_TIME = "ConversionTime";
+    public static final String CONVERSION_PLAYER = "ConversionPlayer";
 
     public ZombieVillagerStore() {
         super(GlowZombieVillager.class, EntityType.ZOMBIE_VILLAGER, GlowZombieVillager::new);
@@ -25,32 +28,31 @@ public class ZombieVillagerStore extends ZombieStore<GlowZombieVillager> {
         checkArgument(zombie instanceof GlowZombieVillager);
         GlowZombieVillager entity = (GlowZombieVillager) zombie;
         super.load(entity, compound);
-        entity.setVillagerProfession(compound.tryGetInt("Profession")
+        entity.setVillagerProfession(compound.tryGetInt(PROFESSION)
             .filter(GlowVillager::isValidProfession)
             .map(GlowVillager::getProfessionById)
             .orElseGet(() -> getRandomProfession(ThreadLocalRandom.current())));
-        entity.setConversionTime(compound.tryGetInt("ConversionTime").orElse(-1));
-        compound.readUuid("ConversionPlayerMost", "ConversionPlayerLeast",
-            entity::setConversionPlayerId);
+        entity.setConversionTime(compound.tryGetInt(CONVERSION_TIME).orElse(-1));
+        compound.readUniqueId(CONVERSION_PLAYER, entity::setConversionPlayerId);
     }
 
     @Override
     public void save(GlowZombie zombie, CompoundTag compound) {
         checkArgument(zombie instanceof GlowZombieVillager);
+
         GlowZombieVillager entity = (GlowZombieVillager) zombie;
         super.save(entity, compound);
 
         final Villager.Profession profession = entity.getVillagerProfession();
         if (profession != null) {
-            compound.putInt("Profession", profession.ordinal());
+            compound.putInt(PROFESSION, profession.ordinal());
         }
 
-        compound.putInt("ConversionTime", entity.getConversionTime());
+        compound.putInt(CONVERSION_TIME, entity.getConversionTime());
 
         final UUID conversionPlayer = entity.getConversionPlayerId();
         if (conversionPlayer != null) {
-            compound.putLong("ConversionPlayerMost", conversionPlayer.getMostSignificantBits());
-            compound.putLong("ConversionPlayerLeast", conversionPlayer.getLeastSignificantBits());
+            compound.putUniqueId(CONVERSION_PLAYER, conversionPlayer);
         }
     }
 }

@@ -87,7 +87,7 @@ public abstract class EntityStore<T extends GlowEntity> {
         tag.readInt("PortalCooldown", entity::setPortalCooldown);
         // TODO: Refactor using JDK9's Optional.or() once JDK8 support ends
         Optional.ofNullable(
-            tag.tryGetUuid("UUIDMost", "UUIDLeast")
+            tag.tryGetUniqueId("UUIDMost", "UUIDLeast")
                 .orElseGet(() -> tag.tryGetString("UUID").map(UuidUtils::fromString).orElse(null)))
             .ifPresent(entity::setUniqueId);
         tag.iterateCompoundList("Passengers", entityTag -> {

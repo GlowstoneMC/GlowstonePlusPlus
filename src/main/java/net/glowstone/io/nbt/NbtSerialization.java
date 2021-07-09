@@ -148,7 +148,7 @@ public final class NbtSerialization {
      */
     public static World readWorld(GlowServer server, CompoundTag compound) {
         World world = compound
-            .tryGetUuid("WorldUUIDMost", "WorldUUIDLeast")
+            .tryGetUniqueId("WorldUUIDMost", "WorldUUIDLeast")
             .map(server::getWorld)
             .orElseGet(() -> compound.tryGetString("World")
                 .map(server::getWorld)

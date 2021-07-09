@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 // TODO: stubs
 public class GlowTippedArrow extends GlowArrow implements TippedArrow {
@@ -42,12 +43,12 @@ public class GlowTippedArrow extends GlowArrow implements TippedArrow {
     }
 
     @Override
-    public List<PotionEffect> getCustomEffects() {
+    public @NotNull List<PotionEffect> getCustomEffects() {
         return new ArrayList<>(customEffects.values());
     }
 
     @Override
-    public boolean addCustomEffect(PotionEffect potionEffect, boolean overwrite) {
+    public boolean addCustomEffect(@NotNull PotionEffect potionEffect, boolean overwrite) {
         PotionEffectType type = potionEffect.getType();
         if (overwrite) {
             customEffects.put(type, potionEffect);
@@ -58,7 +59,7 @@ public class GlowTippedArrow extends GlowArrow implements TippedArrow {
     }
 
     @Override
-    public boolean removeCustomEffect(PotionEffectType potionEffectType) {
+    public boolean removeCustomEffect(@NotNull PotionEffectType potionEffectType) {
         return customEffects.remove(potionEffectType) != null;
     }
 

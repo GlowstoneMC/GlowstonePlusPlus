@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -55,7 +55,7 @@ public class NbtPlayerDataService implements PlayerDataService {
         // list files in directory
         File[] files = playerDir.listFiles();
         if (files == null) {
-            return CompletableFuture.completedFuture(Arrays.asList());
+            return CompletableFuture.completedFuture(Collections.emptyList());
         }
 
         List<CompletableFuture<GlowOfflinePlayer>> futures = new ArrayList<>(files.length);
@@ -78,11 +78,12 @@ public class NbtPlayerDataService implements PlayerDataService {
             futures.add(GlowOfflinePlayer.getOfflinePlayer(server, uuid));
         }
 
-        CompletableFuture<Void> gotAll = CompletableFuture.allOf(futures.toArray(
-            new CompletableFuture[futures.size()]));
+        CompletableFuture<Void> gotAll = CompletableFuture.allOf(
+            futures.toArray(new CompletableFuture[0])
+        );
 
-        return gotAll.thenApplyAsync((v) ->
-            futures.stream().map((f) -> f.join()).collect(Collectors.toList()));
+        return gotAll.thenApplyAsync(v ->
+            futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
     }
 
     @Override
@@ -160,8 +161,10 @@ public class NbtPlayerDataService implements PlayerDataService {
         public Location getBedSpawnLocation() {
             checkOpen();
             // check that all fields are present
-            if (!tag.isString("SpawnWorld") || !tag.isInt("SpawnX") || !tag.isInt("SpawnY") || !tag
-                .isInt("SpawnZ")) {
+            if (!tag.isString("SpawnWorld")
+                || !tag.isInt("SpawnX")
+                || !tag.isInt("SpawnY")
+                || !tag.isInt("SpawnZ")) {
                 return null;
             }
             // look up world
@@ -170,8 +173,12 @@ public class NbtPlayerDataService implements PlayerDataService {
                 return null;
             }
             // return location
-            return new Location(world, tag.getInt("SpawnX"), tag.getInt("SpawnY"),
-                tag.getInt("SpawnZ"));
+            return new Location(
+                world,
+                tag.getInt("SpawnX"),
+                tag.getInt("SpawnY"),
+                tag.getInt("SpawnZ")
+            );
         }
 
         @Override

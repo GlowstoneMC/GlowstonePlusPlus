@@ -1,5 +1,6 @@
 package net.glowstone.io.entity;
 
+import java.util.UUID;
 import java.util.function.Function;
 import net.glowstone.entity.projectile.GlowProjectile;
 import net.glowstone.util.nbt.CompoundTag;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.NonNls;
 
 class ProjectileStore<T extends GlowProjectile> extends EntityStore<T> {
 
+    public static final String OWNER = "Owner";
     private final Function<Location, T> constructor;
 
     /**
@@ -36,12 +38,18 @@ class ProjectileStore<T extends GlowProjectile> extends EntityStore<T> {
     @Override
     public void save(T entity, CompoundTag tag) {
         super.save(entity, tag);
-        // Todo: xTile, yTile, zTile, inTile
+
+        UUID owner = entity.getOwner();
+        if (owner != null) {
+            tag.putUniqueId(OWNER, owner);
+        }
+
     }
 
     @Override
     public void load(T entity, CompoundTag tag) {
         super.load(entity, tag);
         // Todo: xTile, yTile, zTile, inTile
+        tag.readUniqueId(OWNER, entity::setOwner);
     }
 }
