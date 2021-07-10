@@ -1,0 +1,9 @@
+{
+    "type": "smelting",
+    "ingredient": {
+        "item": "minecraft:cacatus"
+    },
+    "result": "minecraft:green_dye",
+    "experience": 0.2,
+    "cookingtime": 200
+}

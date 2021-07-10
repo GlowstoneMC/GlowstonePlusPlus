@@ -1,0 +1,9 @@
+{
+    "type": "smelting",
+    "ingredient": {
+        "item": "minecraft:redstone_ore"
+    },
+    "result": "minecraft:redstone_dust",
+    "experience": 0.7,
+    "cookingtime": 200
+}

@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        " / "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:white_wool"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "minecraft:white_banner",
+        "count": 1
+    }
+}

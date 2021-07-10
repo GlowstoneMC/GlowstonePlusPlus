@@ -1,0 +1,16 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "# #",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:jungle_planks"
+        }
+    },
+    "result": {
+        "item": "minecraft:jungle_boat",
+        "count": 1
+    }
+}

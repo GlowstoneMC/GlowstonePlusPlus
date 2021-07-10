@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:oxeye_daisy"
+        }
+    ],
+    "result": {
+        "item": "minecraft:light_gray_dye",
+        "count": 1
+    }
+}

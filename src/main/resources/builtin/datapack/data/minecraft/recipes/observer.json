@@ -1,0 +1,23 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "ccc",
+        "rrq",
+        "ccc"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:cobblestone"
+        },
+        "q": {
+            "item": "minecraft:quartz"
+        },
+        "r": {
+            "item": "minecraft:redstone_dust"
+        }
+    },
+    "result": {
+        "item": "minecraft:observer",
+        "count": 1
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "sgs",
+        "gdg",
+        "sgs"
+    ],
+    "key": {
+        "s": {
+            "item": "minecraft:sand"
+        },
+        "g": {
+            "item": "minecraft:gravel"
+        },
+        "d": {
+            "item": "minecraft:green_dye"
+        }
+    },
+    "result": {
+        "item": "minecraft:green_concrete_poweder",
+        "count": 1
+    }
+}

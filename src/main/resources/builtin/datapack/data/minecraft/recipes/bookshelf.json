@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "www",
+        "bbb",
+        "www"
+    ],
+    "key": {
+        "w": {
+            "item": "minecraft:planks"
+        },
+        "b": {
+            "item": "minecraft:book"
+        }
+    },
+    "result": {
+        "item": "minecraft:bookshelf",
+        "count": 1
+    }
+}

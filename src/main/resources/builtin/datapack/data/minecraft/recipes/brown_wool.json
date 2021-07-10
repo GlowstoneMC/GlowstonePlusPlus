@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:white_wool"
+        },
+        {
+            "item": "minecraft:cocoa_beans"
+        }
+    ],
+    "result": {
+        "item": "minecraft:brown_wool",
+        "count": 1
+    }
+}

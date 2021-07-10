@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "###",
+        "#d#",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:glass"
+        },
+        "d": {
+            "item": "minecraft:cyan_dye"
+        }
+    },
+    "result": {
+        "item": "minecraft:cyan_stained_glass",
+        "count": 8
+    }
+}

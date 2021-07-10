@@ -1,0 +1,17 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:golden_ingot"
+        }
+    },
+    "result": {
+        "item": "minecraft:gold_block",
+        "count": 9
+    }
+}

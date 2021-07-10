@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "ppp",
+        "prp",
+        "ppp"
+    ],
+    "key": {
+        "p": {
+            "item": "minecraft:planks"
+        },
+        "r": {
+            "item": "minecraft:redstone"
+        }
+    },
+    "result": {
+        "item": "minecraft:note_block",
+        "count": 1
+    }
+}

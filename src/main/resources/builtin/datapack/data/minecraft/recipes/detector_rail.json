@@ -1,0 +1,23 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "i i",
+        "i-i",
+        "i*i"
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:golden_ingot"
+        },
+        "-": {
+            "item": "minecraft:stone_pressure_plate"
+        },
+        "*": {
+            "item": "minecraft:redstone_dust"
+        }
+    },
+    "result": {
+        "item": "minecraft:detector_rail",
+        "count": 6
+    }
+}

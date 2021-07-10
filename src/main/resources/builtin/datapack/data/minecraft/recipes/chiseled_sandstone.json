@@ -1,0 +1,16 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "_",
+        "_"
+    ],
+    "key": {
+        "_": {
+            "item": "minecraft:sandstone_slab"
+        }
+    },
+    "result": {
+        "item": "minecraft:chiseled_sandstone",
+        "count": 1
+    }
+}

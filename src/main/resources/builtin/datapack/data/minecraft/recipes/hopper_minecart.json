@@ -1,0 +1,19 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "m",
+        "h"
+    ],
+    "key": {
+        "m": {
+            "item": "minecraft:minecart"
+        },
+        "h": {
+            "item": "minecraft:hopper"
+        }
+    },
+    "result": {
+        "item": "minecraft:hopper_minecart",
+        "count": 1
+    }
+}

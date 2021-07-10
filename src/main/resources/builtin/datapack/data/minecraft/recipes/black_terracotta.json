@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "###",
+        "#d#",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:terracotta"
+        },
+        "d": {
+            "item": "minecraft:ink_sac"
+        }
+    },
+    "result": {
+        "item": "minecraft:black_terracotta",
+        "count": 8
+    }
+}

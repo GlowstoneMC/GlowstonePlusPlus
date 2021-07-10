@@ -1,0 +1,17 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "# #",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:leather"
+        }
+    },
+    "result": {
+        "item": "minecraft:leatherchestplate",
+        "count": 1
+    }
+}

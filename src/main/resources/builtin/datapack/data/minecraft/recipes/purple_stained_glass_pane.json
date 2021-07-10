@@ -1,0 +1,17 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:purple_stained_glass"
+        }
+    },
+    "result": {
+        "item": "minecraft:purple_stained_glass_pane",
+        "count": 16
+    }
+}

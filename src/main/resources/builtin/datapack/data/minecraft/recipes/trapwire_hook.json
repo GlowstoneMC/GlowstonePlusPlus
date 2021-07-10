@@ -1,0 +1,23 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "i",
+        "/",
+        "p"
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:iron_ingot"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        },
+        "p": {
+            "item": "minecraft:planks"
+        }
+    },
+    "result": {
+        "item": "minecraft:trapwire_hook",
+        "count": 1
+    }
+}

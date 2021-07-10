@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "###",
+        "#d#",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:terracotta"
+        },
+        "d": {
+            "item": "minecraft:lapis_lazuli"
+        }
+    },
+    "result": {
+        "item": "minecraft:blue_terracotta",
+        "count": 8
+    }
+}

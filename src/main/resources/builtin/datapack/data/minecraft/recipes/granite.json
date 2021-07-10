@@ -1,0 +1,18 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "cv"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:cobblestone"
+        },
+        "v": {
+            "item": "minecraft:vine"
+        }
+    },
+    "result": {
+        "item": "minecraft:granite",
+        "count": 1
+    }
+}

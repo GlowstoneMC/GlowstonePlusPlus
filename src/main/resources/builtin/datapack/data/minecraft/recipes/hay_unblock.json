@@ -1,0 +1,15 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "h"
+    ],
+    "key": {
+        "h": {
+            "item": "minecraft:hay_block"
+        }
+    },
+    "result": {
+        "item": "minecraft:wheat",
+        "count": 9
+    }
+}

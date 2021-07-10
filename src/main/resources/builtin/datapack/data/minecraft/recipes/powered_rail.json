@@ -1,0 +1,23 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "g g",
+        "g/g",
+        "g*g"
+    ],
+    "key": {
+        "g": {
+            "item": "minecraft:golden_ingot"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        },
+        "*": {
+            "item": "minecraft:redstone_dust"
+        }
+    },
+    "result": {
+        "item": "minecraft:powered_rail",
+        "count": 6
+    }
+}

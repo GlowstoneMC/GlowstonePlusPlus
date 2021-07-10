@@ -1,0 +1,22 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "trt",
+        "sss"
+    ],
+    "key": {
+        "t": {
+            "item": "minecraft:redstone_torch"
+        },
+        "r": {
+            "item": "minecraft:redstone"
+        },
+        "s": {
+            "item": "minecraft:stone"
+        }
+    },
+    "result": {
+        "item": "minecraft:redstone_repeater",
+        "count": 1
+    }
+}

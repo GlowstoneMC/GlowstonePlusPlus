@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "##",
+        "#/",
+        " /"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stone"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "minecraft:stoneaxe",
+        "count": 1
+    }
+}

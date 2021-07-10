@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:white_wool"
+        },
+        {
+            "item": "minecraft:ink_sac"
+        }
+    ],
+    "result": {
+        "item": "minecraft:black_wool",
+        "count": 1
+    }
+}

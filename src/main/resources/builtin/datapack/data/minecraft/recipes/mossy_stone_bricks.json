@@ -1,0 +1,18 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "#~"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stone_brick"
+        },
+        "~": {
+            "item": "minecraft:vine"
+        }
+    },
+    "result": {
+        "item": "minecraft:mossy_stone_bricks",
+        "count": 1
+    }
+}

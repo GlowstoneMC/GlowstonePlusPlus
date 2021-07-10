@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "sgs",
+        "gsg",
+        "sgs"
+    ],
+    "key": {
+        "s": {
+            "item": "minecraft:sand"
+        },
+        "g": {
+            "item": "minecraft:gun_powder"
+        }
+    },
+    "result": {
+        "item": "minecraft:tnt",
+        "count": 1
+    }
+}

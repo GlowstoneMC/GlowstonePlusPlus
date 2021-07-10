@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        " / "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:pink_wool"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "minecraft:pink_banner",
+        "count": 1
+    }
+}

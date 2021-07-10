@@ -1,0 +1,19 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "r",
+        "/"
+    ],
+    "key": {
+        "r": {
+            "item": "minecraft:redstone"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "minecraft:redstone_torch",
+        "count": 1
+    }
+}

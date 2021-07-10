@@ -1,0 +1,18 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "wcw"
+    ],
+    "key": {
+        "w": {
+            "item": "minecraft:wheat"
+        },
+        "c": {
+            "item": "minecraft:cocoa_beans"
+        }
+    },
+    "result": {
+        "item": "minecraft:cookie",
+        "count": 8
+    }
+}

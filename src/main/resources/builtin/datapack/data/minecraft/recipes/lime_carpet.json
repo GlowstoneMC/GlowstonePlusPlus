@@ -1,0 +1,15 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:lime_wool"
+        }
+    },
+    "result": {
+        "item": "minecraft:lime_carpet",
+        "count": 3
+    }
+}

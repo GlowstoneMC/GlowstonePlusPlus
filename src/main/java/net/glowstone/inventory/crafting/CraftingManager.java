@@ -1,26 +1,27 @@
 package net.glowstone.inventory.crafting;
 
 import com.google.common.collect.Iterators;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Objects;
 import net.glowstone.block.MaterialUtil;
 import net.glowstone.constants.ItemIds;
 import net.glowstone.i18n.ConsoleMessages;
 import net.glowstone.inventory.GlowCraftingInventory;
-import net.glowstone.io.nbt.NbtSerialization;
 import net.glowstone.util.InventoryUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -475,6 +476,81 @@ public final class CraftingManager implements Iterable<Recipe> {
     @SuppressWarnings("unchecked")
     private void loadRecipes() {
         // Load recipes from recipes.yml file
+        // TODO: Migration: Load recipes from builtin/data/minecraft/recipes
+        // TODO: Find mapping that represents In-game string ID to actual Material
+        try {
+            final Enumeration<URL> recipes0 = getClass().getClassLoader().getResources("builtin/datapack/minecraft/recipes");
+            // asIterator.map { File(it) }.map { YamlConfiguration.loadConfiguration(it) }
+            final Iterator<URL> recipes = new Iterator<URL>() {
+                @Override
+                public boolean hasNext() {
+                    return recipes0.hasMoreElements();
+                }
+
+                @Override
+                public URL next() {
+                    return recipes0.nextElement();
+                }
+            };
+            recipes.forEachRemaining(url -> {
+                File file = null;
+                try {
+                    file = new File(url.toURI());
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+                Objects.requireNonNull(file);
+                // YAML is superset of JSON
+                final YamlConfiguration yc = YamlConfiguration.loadConfiguration(file);
+                // Shaped Craft
+                final String type = yc.getString("type");
+                final String result = yc.getString("result.item");
+                final int amount = yc.getInt("result.count");
+                final NamespacedKey ns = NamespacedKey.minecraft(result);
+                final ItemStack item = new ItemStack(ItemIds.getItem(result), amount);
+                switch (type) {
+                    case "shaped_craft":
+                        // TODO: Stub
+                        final List<String> pattern = yc.getStringList("pattern");
+                        final ShapedRecipe shaped = new ShapedRecipe(ns, item);
+                        switch(pattern.size()) {
+                            case 3:
+                                shaped.shape(pattern.get(0), pattern.get(1), pattern.get(2));
+                                break;
+                            case 2:
+                                shaped.shape(pattern.get(0), pattern.get(1));
+                                break;
+                            case 1:
+                                shaped.shape(pattern.get(0));
+                                break;
+                        }
+
+                        this.shapedRecipes.add(shaped);
+                        break;
+                    case "shapeless_craft":
+                        // TODO: Stub
+                        final List<String> ingredients = yc.getStringList("ingredients");
+                        final ShapelessRecipe shapeless = new ShapelessRecipe(ns, item);
+                        // Erase prefix "minecraft:"
+                        ingredients.forEach((ingredient) -> shapeless.addIngredient(ItemIds.getItem(ingredient.replaceAll("^minecraft:(.*)", "$1"))));
+                        this.shapelessRecipes.add(shapeless);
+                        break;
+                    case "smelting":
+                        // TODO: Stub
+                        final float exp = 0.0f;
+                        final FurnaceRecipe smelting = new FurnaceRecipe(ns, item, ItemIds.getItem(result), exp, 200);
+                        this.furnaceRecipes.add(smelting);
+                        break;
+                    default:
+                        // TODO: Stub
+                        throw new IllegalArgumentException("type must be one of [`shaped_craft`, `shapeless_craft`, `smelting`]");
+                }
+            });
+        } catch (IOException e) {
+            // TODO: Stub
+            e.printStackTrace();
+        }
+        /*
         InputStream in = getClass().getClassLoader().getResourceAsStream("builtin/recipes.yml");
         if (in == null) {
             ConsoleMessages.Warn.Recipe.NO_DEFAULTS.log();
@@ -547,8 +623,10 @@ public final class CraftingManager implements Iterable<Recipe> {
             furnaceRecipes.add(recipe);
 
         }
+         */
     }
 
+    /*
     private NamespacedKey readKey(Map<?, ?> data, ItemStack result) {
         NamespacedKey key;
         if (data.containsKey("key")) { // NON-NLS
@@ -563,5 +641,6 @@ public final class CraftingManager implements Iterable<Recipe> {
         }
         return key;
     }
+     */
 
 }

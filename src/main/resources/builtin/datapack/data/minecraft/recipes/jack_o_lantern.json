@@ -1,0 +1,19 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "p",
+        "^"
+    ],
+    "key": {
+        "p": {
+            "item": "minecraft:carved_pumpkin"
+        },
+        "^": {
+            "item": "minecraft:torch"
+        }
+    },
+    "result": {
+        "item": "minecraft:jack_o_lantern",
+        "count": 1
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "i i",
+        "ici",
+        " i "
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:iron_ingot"
+        },
+        "c": {
+            "item": "minecraft:chest"
+        }
+    },
+    "result": {
+        "item": "minecraft:hopper",
+        "count": 1
+    }
+}

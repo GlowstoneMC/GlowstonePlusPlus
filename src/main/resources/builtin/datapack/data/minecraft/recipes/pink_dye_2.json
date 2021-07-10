@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:peony"
+        }
+    ],
+    "result": {
+        "item": "minecraft:pink_dye",
+        "count": 2
+    }
+}

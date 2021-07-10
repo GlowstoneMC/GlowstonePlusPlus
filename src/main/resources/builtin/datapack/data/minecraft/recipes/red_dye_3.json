@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:rose_bush"
+        }
+    ],
+    "result": {
+        "item": "minecraft:red_dye",
+        "count": 2
+    }
+}

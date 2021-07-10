@@ -1,0 +1,17 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:melon_slice"
+        }
+    },
+    "result": {
+        "item": "minecraft:melon_block",
+        "count": 1
+    }
+}

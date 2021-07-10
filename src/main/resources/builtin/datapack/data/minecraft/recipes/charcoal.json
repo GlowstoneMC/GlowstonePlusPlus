@@ -1,0 +1,9 @@
+{
+    "type": "smelting",
+    "ingredient": {
+        "item": "minecraft:dark_oak_log"
+    },
+    "result": "minecraft:charcoal",
+    "experience": 0.15,
+    "cookingtime": 200
+}
