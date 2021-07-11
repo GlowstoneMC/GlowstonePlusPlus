@@ -1,18 +1,17 @@
-![Built with Love](https://forthebadge.com/images/badges/built-with-love.svg)
-[![Join the Discord chat](https://img.shields.io/badge/Discord-glowstone-5865f2.svg?style=flat-square&logo=discord)](https://discord.gg/TFJqhsC)
-![Dev Build](https://github.com/GlowstoneMC/Glowstone/workflows/Dev%20Build/badge.svg)
+<p align="center"><img alt="Glowstone logo" width="200" src="../etc/logo/logo.png"></p>
 
-<img align="right" alt="Glowstone logo" width="100" src="../etc/logo/logo.png">
+<p align="center">
+<a href="#"><img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="Built with Love"></a>
+<a href="https://discord.gg/TFJqhsC"><img src="https://img.shields.io/badge/Discord-glowstone-5865f2.svg?style=flat-square&logo=discord" alt="Discord"></a>
+<a href="https://www.bountysource.com/teams/glowstonemc"><img src="https://img.shields.io/bountysource/team/glowstonemc/activity?label=Glowstone%20on%20bountysource" alt="Bountysource"></a>
+<a href="#"><img src="https://github.com/GlowstoneMC/Glowstone/workflows/Dev%20Build/badge.svg" alt="Devbuild"></a>
+</p>
 
-# Glowstone
+## About Glowstone
 
-A fast, customizable and compatible open source server for Minecraft: Java Edition.
-
-## Introduction
-
-Glowstone is a lightweight, from scratch, open source
+**Glowstone is a lightweight, from scratch, open source
 [Minecraft](https://minecraft.net) server written in Java that supports plugins
-written for the Bukkit API and its major forks, Spigot and Paper.
+written for the Bukkit API and its major forks, Spigot and Paper.**
 
 The main goals of the project are to provide a lightweight implementation
 of the Bukkit API and Minecraft server where exact vanilla functionality is
@@ -113,7 +112,12 @@ For documentation on the Glowkit API (an updated Bukkit for Glowstone, based on 
 
 ## Contributing
 
-First of all, thank you for your interest in advancing Glowstone! We always love to see new developers work on the project! You can find all of our resources on how to get started on our [wiki](https://github.com/GlowstoneMC/Glowstone/wiki#contributing).
+First of all, thank you for your interest in advancing Glowstone! We always love to see new developers work on the project!
+
+[Here](https://github.com/orgs/GlowstoneMC/projects/7) is a list of all the remaining features to complete the 1.17 release,
+or you can always browse our [issues page](https://github.com/GlowstoneMC/Glowstone/issues) and get started.
+
+You can find all the details on how to get started in the [wiki](https://github.com/GlowstoneMC/Glowstone/wiki#contributing).
 
 ## Sponsors
 
@@ -126,6 +130,7 @@ Sponsor Glowstone [on Bountysource](https://www.bountysource.com/teams/glowstone
 
 ## Credits
 
+ * [All our awesome contributors](https://github.com/GlowstoneMC/Glowstone/graphs/contributors)
  * [The Minecraft Coalition](https://wiki.vg/) and [`#mcdevs`](https://github.com/mcdevs) -
    protocol and file formats research.
  * [The Bukkit team](https://bukkit.org) for their outstandingly well-designed
