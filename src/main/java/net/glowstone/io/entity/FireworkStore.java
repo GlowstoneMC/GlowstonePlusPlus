@@ -23,7 +23,7 @@ public class FireworkStore extends EntityStore<GlowFirework> {
         tag.readInt("Life", entity::setTicksLived);
         tag.readInt("LifeTime", entity::setLifeTime);
         tag.readItem("FireworksItem", entity::setFireworkItem);
-        tag.readUuid("SpawningEntityMost", "SpawningEntityLeast", entity::setSpawningEntity);
+        tag.readUniqueId("SpawningEntityMost", "SpawningEntityLeast", entity::setSpawningEntity);
     }
 
     @Override

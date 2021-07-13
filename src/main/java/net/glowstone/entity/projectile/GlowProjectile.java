@@ -3,6 +3,8 @@ package net.glowstone.entity.projectile;
 import com.flowpowered.network.Message;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+import jline.internal.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import net.glowstone.EventFactory;
@@ -33,10 +35,28 @@ public abstract class GlowProjectile extends GlowEntity implements Projectile {
     @Setter
     private boolean invulnerable;
     @Getter
-    @Setter
+
     private ProjectileSource shooter;
+
+    @Override
+    public void setShooter(ProjectileSource shooter) {
+        this.shooter = shooter;
+
+        if (shooter instanceof Entity) {
+            this.owner = ((Entity) shooter).getUniqueId();
+        } else {
+            this.owner = null;
+        }
+    }
+
     @Setter
     private boolean bounce;
+
+    @Getter
+    @Setter
+    @Nullable
+    private UUID owner;
+
 
     /**
      * Creates a projectile.

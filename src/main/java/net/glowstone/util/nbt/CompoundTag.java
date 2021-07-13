@@ -24,6 +24,7 @@ import net.glowstone.io.nbt.NbtSerialization;
 import net.glowstone.util.DynamicallyTypedMapWithDoubles;
 import net.glowstone.util.FloatConsumer;
 import net.glowstone.util.ShortConsumer;
+import net.glowstone.util.UuidUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -691,16 +692,14 @@ public class CompoundTag extends Tag<Map<String, Tag>>
         if (!containsKey(key)) {
             return Optional.empty();
         }
-        switch (value.get(key).getType()) {
-            case COMPOUND:
-                CompoundTag state = getCompound(key);
-                Optional<Material> type = tryGetMaterial("Name");
-                // TODO: 1.13 parse properties
-                Optional<CompoundTag> properties = tryGetCompound("Properties");
-                return Optional.of(Bukkit.getServer().createBlockData(type.orElse(Material.AIR)));
-            default:
-                return Optional.empty();
+        if (value.get(key).getType() == TagType.COMPOUND) {
+            CompoundTag state = getCompound(key);
+            Optional<Material> type = tryGetMaterial("Name");
+            // TODO: 1.13 parse properties
+            Optional<CompoundTag> properties = tryGetCompound("Properties");
+            return Optional.of(Bukkit.getServer().createBlockData(type.orElse(Material.AIR)));
         }
+        return Optional.empty();
     }
 
     /**
@@ -728,19 +727,28 @@ public class CompoundTag extends Tag<Map<String, Tag>>
     /**
      * Applies the given function to a UUID extracted from the given pair of long subtags, if they
      * both exist.
+     * <p>
+     * Uses Most/Least representation.
      *
      * @param keyMost  the key to look up the high word of the UUID
      * @param keyLeast the key to look up the low word of the UUID
      * @param consumer the function to apply
      * @return true if the tags exist and were passed to the consumer; false otherwise
+     * @deprecated use {@link #readUniqueId(String, Consumer)} for modern int-array UUID representation.
      */
-    public boolean readUuid(@NonNls String keyMost, @NonNls String keyLeast,
-                            Consumer<? super UUID> consumer) {
+    @Deprecated
+    public boolean readUniqueId(@NonNls String keyMost,
+                                @NonNls String keyLeast,
+                                Consumer<? super UUID> consumer) {
         if (isLong(keyMost) && isLong(keyLeast)) {
             consumer.accept(new UUID(getLong(keyMost), getLong(keyLeast)));
             return true;
         }
         return false;
+    }
+
+    public boolean readUniqueId(@NonNls String key, Consumer<? super UUID> consumer) {
+        return readIntArray(key, arr -> consumer.accept(UuidUtils.fromIntArray(arr)));
     }
 
     /**
@@ -749,12 +757,21 @@ public class CompoundTag extends Tag<Map<String, Tag>>
      * @param keyMost  the key to look up the high word of the UUID
      * @param keyLeast the key to look up the low word of the UUID
      * @return the UUID, or an empty Optional if either tag is missing or not long type
+     * @deprecated use {@link #tryGetUniqueId(String)}  for modern int-array UUID representation.
      */
-    public Optional<UUID> tryGetUuid(@NonNls String keyMost, @NonNls String keyLeast) {
+    @Deprecated
+    public Optional<UUID> tryGetUniqueId(@NonNls String keyMost, @NonNls String keyLeast) {
         if (isLong(keyMost) && isLong(keyLeast)) {
             return Optional.of(new UUID(getLong(keyMost), getLong(keyLeast)));
         }
         return Optional.empty();
+    }
+
+    public Optional<UUID> tryGetUniqueId(@NonNls String key) {
+        if (!isIntArray(key)) {
+            return Optional.empty();
+        }
+        return Optional.of(UuidUtils.fromIntArray(getIntArray(key)));
     }
 
     /**
@@ -1041,6 +1058,10 @@ public class CompoundTag extends Tag<Map<String, Tag>>
      */
     public void putLongList(@NonNls String key, List<Long> list) {
         putList(key, TagType.LONG, list, LongTag::new);
+    }
+
+    public void putUniqueId(@NonNls String key, UUID uuid) {
+        putIntArray(key, UuidUtils.toIntArray(uuid));
     }
 
     ////////////////////////////////////////////////////////////////////////////
