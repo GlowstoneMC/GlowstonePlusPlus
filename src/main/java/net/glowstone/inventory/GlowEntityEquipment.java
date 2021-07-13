@@ -27,7 +27,7 @@ public class GlowEntityEquipment implements EntityEquipment {
      * @param slot The EquipmentSlot of the Slot's ItemStack to return
      * @return The ItemStack in the slot
      */
-    public ItemStack getItem(EquipmentSlot slot) {
+    public @NotNull ItemStack getItem(@NotNull EquipmentSlot slot) {
         Entry slotEntry = getSlotEntry(slot);
         ItemStack stack = slotEntry != null ? slotEntry.item : null;
         return InventoryUtil.itemOrEmpty(stack);
@@ -38,7 +38,7 @@ public class GlowEntityEquipment implements EntityEquipment {
     }
 
     @Override
-    public float getDropChance(EquipmentSlot slot) {
+    public float getDropChance(@NotNull EquipmentSlot slot) {
         Entry slotEntry = getSlotEntry(slot);
         return slotEntry == null ? 1F : slotEntry.dropChance;
     }
@@ -61,7 +61,7 @@ public class GlowEntityEquipment implements EntityEquipment {
     }
 
     @Override
-    public void setDropChance(EquipmentSlot slot, float chance) {
+    public void setDropChance(@NotNull EquipmentSlot slot, float chance) {
         Entry slotEntry = getSlotEntry(slot);
         if (slotEntry == null) {
             return;
@@ -71,7 +71,7 @@ public class GlowEntityEquipment implements EntityEquipment {
     }
 
     @Override
-    public ItemStack getItemInMainHand() {
+    public @NotNull ItemStack getItemInMainHand() {
         return getItem(EquipmentSlot.HAND);
     }
 
@@ -86,7 +86,7 @@ public class GlowEntityEquipment implements EntityEquipment {
     }
 
     @Override
-    public ItemStack getItemInOffHand() {
+    public @NotNull ItemStack getItemInOffHand() {
         return getItem(EquipmentSlot.OFF_HAND);
     }
 
@@ -101,7 +101,7 @@ public class GlowEntityEquipment implements EntityEquipment {
     }
 
     @Override
-    public ItemStack getItemInHand() {
+    public @NotNull ItemStack getItemInHand() {
         return getItemInMainHand();
     }
 

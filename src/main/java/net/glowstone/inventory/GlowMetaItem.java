@@ -189,7 +189,7 @@ public class GlowMetaItem implements ItemMeta {
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = new HashMap<>();
         result.put("meta-type", "UNSPECIFIC");
         result.put("unbreakable", isUnbreakable());
@@ -300,7 +300,7 @@ public class GlowMetaItem implements ItemMeta {
     }
 
     @Override
-    public String getLocalizedName() {
+    public @NotNull String getLocalizedName() {
         return getDisplayName();
     }
 
@@ -371,22 +371,22 @@ public class GlowMetaItem implements ItemMeta {
     }
 
     @Override
-    public boolean hasEnchant(Enchantment ench) {
+    public boolean hasEnchant(@NotNull Enchantment ench) {
         return hasEnchants() && enchants.containsKey(ench);
     }
 
     @Override
-    public int getEnchantLevel(Enchantment ench) {
+    public int getEnchantLevel(@NotNull Enchantment ench) {
         return hasEnchant(ench) ? enchants.get(ench) : 0;
     }
 
     @Override
-    public Map<Enchantment, Integer> getEnchants() {
+    public @NotNull Map<Enchantment, Integer> getEnchants() {
         return hasEnchants() ? Collections.unmodifiableMap(enchants) : Collections.emptyMap();
     }
 
     @Override
-    public boolean addEnchant(Enchantment ench, int level, boolean ignoreLevelRestriction) {
+    public boolean addEnchant(@NotNull Enchantment ench, int level, boolean ignoreLevelRestriction) {
         if (enchants == null) {
             enchants = new HashMap<>(4);
         }
@@ -400,12 +400,12 @@ public class GlowMetaItem implements ItemMeta {
     }
 
     @Override
-    public boolean removeEnchant(Enchantment ench) {
+    public boolean removeEnchant(@NotNull Enchantment ench) {
         return hasEnchants() && enchants.remove(ench) != null;
     }
 
     @Override
-    public boolean hasConflictingEnchant(Enchantment ench) {
+    public boolean hasConflictingEnchant(@NotNull Enchantment ench) {
         if (!hasEnchants()) {
             return false;
         }
@@ -420,7 +420,7 @@ public class GlowMetaItem implements ItemMeta {
     }
 
     @Override
-    public ItemMeta clone() {
+    public @NotNull ItemMeta clone() {
         return new GlowMetaItem(this);
     }
 
@@ -439,7 +439,7 @@ public class GlowMetaItem implements ItemMeta {
     }
 
     @Override
-    public Set<ItemFlag> getItemFlags() {
+    public @NotNull Set<ItemFlag> getItemFlags() {
         Set<ItemFlag> currentFlags = EnumSet.noneOf(ItemFlag.class);
         ItemFlag[] values;
         for (int length = (values = ItemFlag.values()).length, i = 0; i < length; ++i) {
@@ -452,7 +452,7 @@ public class GlowMetaItem implements ItemMeta {
     }
 
     @Override
-    public boolean hasItemFlag(ItemFlag itemFlag) {
+    public boolean hasItemFlag(@NotNull ItemFlag itemFlag) {
         int bitModifier = getBitModifier(itemFlag);
         return (hideFlag & bitModifier) == bitModifier;
     }

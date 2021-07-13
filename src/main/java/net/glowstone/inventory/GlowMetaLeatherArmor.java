@@ -9,6 +9,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaLeatherArmor extends GlowMetaItem implements LeatherArmorMeta {
 
@@ -49,7 +50,7 @@ public class GlowMetaLeatherArmor extends GlowMetaItem implements LeatherArmorMe
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = super.serialize();
         result.put("meta-type", "LEATHER_ARMOR");
         if (hasColor()) {
@@ -78,7 +79,7 @@ public class GlowMetaLeatherArmor extends GlowMetaItem implements LeatherArmorMe
     }
 
     @Override
-    public LeatherArmorMeta clone() {
+    public @NotNull LeatherArmorMeta clone() {
         return new GlowMetaLeatherArmor(this);
     }
 

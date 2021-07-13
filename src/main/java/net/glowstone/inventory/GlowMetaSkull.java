@@ -17,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaSkull extends GlowMetaItem implements SkullMeta {
 
@@ -67,7 +68,7 @@ public class GlowMetaSkull extends GlowMetaItem implements SkullMeta {
     }
 
     @Override
-    public SkullMeta clone() {
+    public @NotNull SkullMeta clone() {
         return new GlowMetaSkull(this);
     }
 
@@ -77,7 +78,7 @@ public class GlowMetaSkull extends GlowMetaItem implements SkullMeta {
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = super.serialize();
         result.put("meta-type", "SKULL");
         if (hasOwner()) {

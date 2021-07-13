@@ -32,8 +32,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class GlowInventory implements Inventory {
     @Override
-    public HashMap<Integer, ItemStack> removeItemAnySlot(
-            @NotNull ItemStack... items) throws IllegalArgumentException {
+    public @NotNull HashMap<Integer, ItemStack> removeItemAnySlot(
+        @NotNull ItemStack... items) throws IllegalArgumentException {
         // TODO
         return new HashMap<>();
     }
@@ -251,7 +251,7 @@ public class GlowInventory implements Inventory {
                 if (firstEmpty == -1 && InventoryUtil.isEmpty(currentStack)) {
                     firstEmpty = i;
                 } else if (currentStack
-                        .isSimilar(stack)) { // Non empty slot of similar items, try to fill stack
+                    .isSimilar(stack)) { // Non empty slot of similar items, try to fill stack
                     // Calculate the amount of transferable items
                     int amount = currentStack.getAmount();
                     int maxStackSize = Math.min(currentStack.getMaxStackSize(), getMaxStackSize());
@@ -324,7 +324,7 @@ public class GlowInventory implements Inventory {
     }
 
     @Override
-    public List<HumanEntity> getViewers() {
+    public @NotNull List<HumanEntity> getViewers() {
         return new ArrayList<>(viewers);
     }
 
@@ -335,12 +335,12 @@ public class GlowInventory implements Inventory {
     }
 
     @Override
-    public ListIterator<ItemStack> iterator() {
+    public @NotNull ListIterator<ItemStack> iterator() {
         return new InventoryIterator(this);
     }
 
     @Override
-    public ListIterator<ItemStack> iterator(int index) {
+    public @NotNull ListIterator<ItemStack> iterator(int index) {
         if (index < 0) {
             // negative indices go from back
             index += getSize() + 1;
@@ -357,7 +357,8 @@ public class GlowInventory implements Inventory {
     // Get, Set, Add, Remove
 
     @Override
-    public ItemStack getItem(int index) {
+
+    public @NotNull ItemStack getItem(int index) {
         return slots.get(index).getItem();
     }
 
@@ -366,11 +367,11 @@ public class GlowInventory implements Inventory {
         if (index == -1) {
             return;
         }
-        slots.get(index).setItem(item);
+        slots.get(index).setItem(item.clone());
     }
 
     @Override
-    public HashMap<Integer, ItemStack> addItem(ItemStack... items) {
+    public @NotNull HashMap<Integer, ItemStack> addItem(ItemStack... items) {
         HashMap<Integer, ItemStack> result = new HashMap<>();
 
         for (int i = 0; i < items.length; ++i) {
@@ -423,9 +424,9 @@ public class GlowInventory implements Inventory {
                 GlowInventorySlot slot = iterator.next();
                 ItemStack slotItem = slot.getItem();
                 if (InventoryUtil.isEmpty(slotItem)
-                        && itemPlaceAllowed(slots.indexOf(slot), item)) {
+                    && itemPlaceAllowed(slots.indexOf(slot), item)) {
 
-                    int num = toAdd > maxStackSize ? maxStackSize : toAdd;
+                    int num = Math.min(toAdd, maxStackSize);
 
                     slotItem = item.clone();
                     slotItem.setAmount(num);
@@ -446,7 +447,7 @@ public class GlowInventory implements Inventory {
     }
 
     @Override
-    public HashMap<Integer, ItemStack> removeItem(ItemStack... items) {
+    public @NotNull HashMap<Integer, ItemStack> removeItem(ItemStack... items) {
         HashMap<Integer, ItemStack> result = new HashMap<>();
 
         for (int i = 0; i < items.length; ++i) {
@@ -505,7 +506,7 @@ public class GlowInventory implements Inventory {
     }
 
     @Override
-    public ItemStack[] getContents() {
+    public ItemStack @NotNull [] getContents() {
         ItemStack[] contents = new ItemStack[getSize()];
 
         int i = 0;
@@ -560,7 +561,7 @@ public class GlowInventory implements Inventory {
     // Contains
 
     @Override
-    public boolean contains(Material material) {
+    public boolean contains(@NotNull Material material) {
         return first(material) >= 0;
     }
 
@@ -570,7 +571,7 @@ public class GlowInventory implements Inventory {
     }
 
     @Override
-    public boolean contains(Material material, int amount) {
+    public boolean contains(@NotNull Material material, int amount) {
         HashMap<Integer, ? extends ItemStack> found = all(material);
         int total = 0;
         for (ItemStack stack : found.values()) {
@@ -593,7 +594,7 @@ public class GlowInventory implements Inventory {
     // Find all
 
     @Override
-    public HashMap<Integer, ItemStack> all(Material material) {
+    public @NotNull HashMap<Integer, ItemStack> all(@NotNull Material material) {
         HashMap<Integer, ItemStack> result = new HashMap<>();
         int i = 0;
         for (ItemStack slotItem : this) {
@@ -606,7 +607,7 @@ public class GlowInventory implements Inventory {
     }
 
     @Override
-    public HashMap<Integer, ItemStack> all(ItemStack item) {
+    public @NotNull HashMap<Integer, ItemStack> all(ItemStack item) {
         HashMap<Integer, ItemStack> result = new HashMap<>();
         int i = 0;
         for (ItemStack slotItem : this) {
@@ -622,7 +623,7 @@ public class GlowInventory implements Inventory {
     // Find first
 
     @Override
-    public int first(Material material) {
+    public int first(@NotNull Material material) {
         int i = 0;
         for (ItemStack slotItem : this) {
             if (slotItem == null) {
@@ -638,7 +639,7 @@ public class GlowInventory implements Inventory {
     }
 
     @Override
-    public int first(ItemStack item) {
+    public int first(@NotNull ItemStack item) {
         int i = 0;
         for (ItemStack slotItem : this) {
             if (Objects.equals(slotItem, item)) {
@@ -651,7 +652,7 @@ public class GlowInventory implements Inventory {
 
     @Override
     public int firstEmpty() {
-        return first((Material) null);
+        return first(InventoryUtil.EMPTY_STACK);
     }
 
     @Override
@@ -663,13 +664,13 @@ public class GlowInventory implements Inventory {
     // Remove
 
     @Override
-    public void remove(Material material) {
+    public void remove(@NotNull Material material) {
         HashMap<Integer, ? extends ItemStack> stacks = all(material);
         stacks.keySet().forEach(this::clear);
     }
 
     @Override
-    public void remove(ItemStack item) {
+    public void remove(@NotNull ItemStack item) {
         HashMap<Integer, ? extends ItemStack> stacks = all(item);
         stacks.keySet().forEach(this::clear);
     }

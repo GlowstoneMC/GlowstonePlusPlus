@@ -1,6 +1,7 @@
 package net.glowstone.inventory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -324,9 +325,7 @@ public class EnchantmentManager {
         event.setCancelled(!canEnchant(item));
         EventFactory.getInstance().callEvent(event);
         if (event.isCancelled()) {
-            for (int i = 0; i < enchLevelCosts.length; i++) {
-                enchLevelCosts[i] = 0;
-            }
+            Arrays.fill(enchLevelCosts, 0);
         }
 
         update();

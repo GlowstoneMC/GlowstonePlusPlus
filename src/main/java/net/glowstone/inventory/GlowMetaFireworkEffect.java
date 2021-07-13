@@ -14,6 +14,7 @@ import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaFireworkEffect extends GlowMetaItem implements FireworkEffectMeta {
 
@@ -96,7 +97,7 @@ public class GlowMetaFireworkEffect extends GlowMetaItem implements FireworkEffe
     }
 
     @Override
-    public GlowMetaFireworkEffect clone() {
+    public @NotNull GlowMetaFireworkEffect clone() {
         return new GlowMetaFireworkEffect(this);
     }
 
@@ -116,7 +117,7 @@ public class GlowMetaFireworkEffect extends GlowMetaItem implements FireworkEffe
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = super.serialize();
         result.put("meta-type", "CHARGE");
 

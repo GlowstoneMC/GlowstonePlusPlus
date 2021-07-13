@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class InventoryUtil {
 
@@ -40,7 +41,8 @@ public class InventoryUtil {
      * @param stack the ItemStack to check and convert, if applicable
      * @return the converted ItemStack if applicable, the original ItemStack otherwise
      */
-    public static ItemStack itemOrEmpty(ItemStack stack) {
+    @NotNull
+    public static ItemStack itemOrEmpty(@Nullable ItemStack stack) {
         return stack == null ? createEmptyStack() : stack;
     }
 
@@ -49,7 +51,7 @@ public class InventoryUtil {
      *
      * @return an empty ItemStack
      */
-    public static ItemStack createEmptyStack() {
+    public static @NotNull ItemStack createEmptyStack() {
         return EMPTY_STACK;
     }
 
@@ -61,7 +63,9 @@ public class InventoryUtil {
      * @param ignoreEmpty whether to skip empty items in the inventory
      * @return the index of a random slot in the inventory, -1 if no possible slot was found
      */
-    public static int getRandomSlot(Random random, Inventory inventory, boolean ignoreEmpty) {
+    public static int getRandomSlot(@NotNull Random random,
+                                    @NotNull Inventory inventory,
+                                    boolean ignoreEmpty) {
         if (!ignoreEmpty) {
             return random.nextInt(inventory.getSize());
         }
@@ -84,7 +88,7 @@ public class InventoryUtil {
      * @param holding the item
      * @return the updated item stack
      */
-    public static ItemStack damageItem(GlowPlayer player, ItemStack holding) {
+    public static @NotNull ItemStack damageItem(@Nullable GlowPlayer player, @NotNull ItemStack holding) {
         if (player != null && player.getGameMode() == GameMode.CREATIVE) {
             return holding;
         }
@@ -107,8 +111,7 @@ public class InventoryUtil {
         holding.setDurability((short) (holding.getDurability() + damage));
         if (holding.getDurability() == holding.getType().getMaxDurability() + 1) {
             if (player != null) {
-                EventFactory.getInstance()
-                    .callEvent(new PlayerItemBreakEvent(player, holding));
+                EventFactory.getInstance().callEvent(new PlayerItemBreakEvent(player, holding));
             }
             return createEmptyStack();
         }
@@ -123,7 +126,7 @@ public class InventoryUtil {
      * @param player the player holding the item
      * @param item   the item to consume
      */
-    public static void consumeHeldItem(HumanEntity player, ItemStack item) {
+    public static void consumeHeldItem(@NotNull HumanEntity player, @NotNull ItemStack item) {
         if (player.getGameMode() == GameMode.CREATIVE) {
             return;
         }

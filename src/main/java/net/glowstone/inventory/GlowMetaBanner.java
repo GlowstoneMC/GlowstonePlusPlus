@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaBanner extends GlowMetaItem implements BannerMeta {
 
@@ -39,34 +40,34 @@ public class GlowMetaBanner extends GlowMetaItem implements BannerMeta {
     }
 
     @Override
-    public List<Pattern> getPatterns() {
+    public @NotNull List<Pattern> getPatterns() {
         return new ArrayList<>(patterns);
     }
 
     @Override
-    public void setPatterns(List<Pattern> patterns) {
+    public void setPatterns(@NotNull List<Pattern> patterns) {
         checkNotNull(patterns, "Pattern cannot be null!");
         this.patterns.clear();
         this.patterns.addAll(patterns);
     }
 
     @Override
-    public void addPattern(Pattern pattern) {
+    public void addPattern(@NotNull Pattern pattern) {
         patterns.add(pattern);
     }
 
     @Override
-    public Pattern getPattern(int i) {
+    public @NotNull Pattern getPattern(int i) {
         return patterns.get(i);
     }
 
     @Override
-    public Pattern removePattern(int i) {
+    public @NotNull Pattern removePattern(int i) {
         return patterns.remove(i);
     }
 
     @Override
-    public void setPattern(int i, Pattern pattern) {
+    public void setPattern(int i, @NotNull Pattern pattern) {
         patterns.set(i, pattern);
     }
 
@@ -99,7 +100,7 @@ public class GlowMetaBanner extends GlowMetaItem implements BannerMeta {
     }
 
     @Override
-    public ItemMeta clone() {
+    public @NotNull ItemMeta clone() {
         return new GlowMetaBanner(this);
     }
 
@@ -110,7 +111,7 @@ public class GlowMetaBanner extends GlowMetaItem implements BannerMeta {
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = super.serialize();
         result.put("meta-type", "BANNER");
         List<Map<String, String>> patternsList = new ArrayList<>();

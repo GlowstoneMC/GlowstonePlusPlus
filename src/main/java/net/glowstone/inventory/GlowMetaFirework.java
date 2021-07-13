@@ -16,6 +16,7 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaFirework extends GlowMetaItem implements FireworkMeta {
 
@@ -47,12 +48,12 @@ public class GlowMetaFirework extends GlowMetaItem implements FireworkMeta {
     }
 
     @Override
-    public GlowMetaFirework clone() {
+    public @NotNull GlowMetaFirework clone() {
         return new GlowMetaFirework(this);
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = super.serialize();
         result.put("meta-type", "FIREWORK");
 
@@ -92,7 +93,7 @@ public class GlowMetaFirework extends GlowMetaItem implements FireworkMeta {
     }
 
     @Override
-    public void addEffect(FireworkEffect effect) {
+    public void addEffect(@NotNull FireworkEffect effect) {
         checkNotNull(effect, "Effect cannot be null.");
 
         effects.add(effect);
@@ -109,12 +110,12 @@ public class GlowMetaFirework extends GlowMetaItem implements FireworkMeta {
     }
 
     @Override
-    public void addEffects(Iterable<FireworkEffect> effects) {
+    public void addEffects(@NotNull Iterable<FireworkEffect> effects) {
         addEffects(Iterables.toArray(effects, FireworkEffect.class));
     }
 
     @Override
-    public List<FireworkEffect> getEffects() {
+    public @NotNull List<FireworkEffect> getEffects() {
         return ImmutableList.copyOf(effects);
     }
 

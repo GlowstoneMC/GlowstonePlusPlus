@@ -7,6 +7,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowDoubleChestInventory extends GlowSuperInventory implements DoubleChestInventory {
 
@@ -32,12 +33,12 @@ public class GlowDoubleChestInventory extends GlowSuperInventory implements Doub
     }
 
     @Override
-    public Inventory getLeftSide() {
+    public @NotNull Inventory getLeftSide() {
         return getParents().get(0);
     }
 
     @Override
-    public Inventory getRightSide() {
+    public @NotNull Inventory getRightSide() {
         return getParents().get(1);
     }
 

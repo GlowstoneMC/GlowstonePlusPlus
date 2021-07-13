@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaEnchantedBook extends GlowMetaItem implements EnchantmentStorageMeta {
 
@@ -39,7 +40,7 @@ public class GlowMetaEnchantedBook extends GlowMetaItem implements EnchantmentSt
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = super.serialize();
 
         map.put("meta-type", "ENCHANTED");
@@ -79,23 +80,23 @@ public class GlowMetaEnchantedBook extends GlowMetaItem implements EnchantmentSt
     }
 
     @Override
-    public boolean hasStoredEnchant(Enchantment ench) {
+    public boolean hasStoredEnchant(@NotNull Enchantment ench) {
         return hasStoredEnchants() && storedEnchants.containsKey(ench);
     }
 
     @Override
-    public int getStoredEnchantLevel(Enchantment ench) {
+    public int getStoredEnchantLevel(@NotNull Enchantment ench) {
         return hasStoredEnchant(ench) ? storedEnchants.get(ench) : 0;
     }
 
     @Override
-    public Map<Enchantment, Integer> getStoredEnchants() {
+    public @NotNull Map<Enchantment, Integer> getStoredEnchants() {
         return hasStoredEnchants() ? Collections.unmodifiableMap(storedEnchants)
                 : Collections.emptyMap();
     }
 
     @Override
-    public boolean addStoredEnchant(Enchantment ench, int level, boolean ignoreLevelRestriction) {
+    public boolean addStoredEnchant(@NotNull Enchantment ench, int level, boolean ignoreLevelRestriction) {
         if (storedEnchants == null) {
             storedEnchants = new HashMap<>(4);
         }
@@ -109,12 +110,12 @@ public class GlowMetaEnchantedBook extends GlowMetaItem implements EnchantmentSt
     }
 
     @Override
-    public boolean removeStoredEnchant(Enchantment ench) throws IllegalArgumentException {
+    public boolean removeStoredEnchant(@NotNull Enchantment ench) throws IllegalArgumentException {
         return hasStoredEnchants() && storedEnchants.remove(ench) != null;
     }
 
     @Override
-    public boolean hasConflictingStoredEnchant(Enchantment ench) {
+    public boolean hasConflictingStoredEnchant(@NotNull Enchantment ench) {
         if (!hasStoredEnchants()) {
             return false;
         }
@@ -129,7 +130,7 @@ public class GlowMetaEnchantedBook extends GlowMetaItem implements EnchantmentSt
     }
 
     @Override
-    public GlowMetaEnchantedBook clone() {
+    public @NotNull GlowMetaEnchantedBook clone() {
         return new GlowMetaEnchantedBook(this);
     }
 }

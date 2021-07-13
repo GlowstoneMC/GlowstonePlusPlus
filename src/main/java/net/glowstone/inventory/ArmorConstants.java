@@ -42,8 +42,8 @@ public enum ArmorConstants {
             try {
                 ArmorConstants constant = valueOf(stack.getType().name());
                 defense += constant.getDefense();
-            } catch (IllegalArgumentException ex) {
-                continue;
+            } catch (IllegalArgumentException ignored) {
+                // Ignored
             }
         }
         return defense;
@@ -64,8 +64,8 @@ public enum ArmorConstants {
             try {
                 ArmorConstants constant = valueOf(stack.getType().name());
                 toughness += constant.getToughness();
-            } catch (IllegalArgumentException ex) {
-                continue;
+            } catch (IllegalArgumentException ignored) {
+                // Ignored
             }
         }
         return toughness;

@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SpawnEggMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaSpawn extends GlowMetaItem implements SpawnEggMeta {
 
@@ -36,7 +37,7 @@ public class GlowMetaSpawn extends GlowMetaItem implements SpawnEggMeta {
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = super.serialize();
         result.put("meta-type", "MONSTER_EGG");
         if (hasSpawnedType()) {
@@ -79,7 +80,7 @@ public class GlowMetaSpawn extends GlowMetaItem implements SpawnEggMeta {
     }
 
     @Override
-    public GlowMetaSpawn clone() {
+    public @NotNull GlowMetaSpawn clone() {
         return new GlowMetaSpawn(this);
     }
 }

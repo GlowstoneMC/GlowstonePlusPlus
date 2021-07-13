@@ -17,6 +17,7 @@ import net.glowstone.block.blocktype.BlockRedstone;
 import net.glowstone.block.blocktype.BlockRedstoneTorch;
 import net.glowstone.block.blocktype.BlockType;
 import net.glowstone.block.data.BlockDataManager;
+import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.entity.BlockEntity;
 import net.glowstone.chunk.GlowChunk;
 import net.glowstone.net.message.play.game.BlockChangeMessage;
@@ -334,7 +335,7 @@ public class GlowBlock implements Block {
 
         GlowChunk.Key key = GlowChunk.Key.of(x >> 4, z >> 4);
         BlockDataManager blockDataManager = ((GlowServer) Bukkit.getServer()).getBlockDataManager();
-        BlockData blockData = blockDataManager.createBlockData(getType());
+        StatefulBlockData blockData = blockDataManager.createBlockData(getType());
         BlockChangeMessage bcmsg = new BlockChangeMessage(x, y, z,
             blockDataManager.convertToBlockId(blockData), data);
         world.broadcastBlockChangeInRange(key, bcmsg);

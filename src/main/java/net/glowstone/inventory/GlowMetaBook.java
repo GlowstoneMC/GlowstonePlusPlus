@@ -59,13 +59,13 @@ class GlowMetaBook extends GlowMetaItem implements BookMeta {
     // Internal stuff
 
     @Override
-    public BookMeta.Spigot spigot() {
+    public BookMeta.@NotNull Spigot spigot() {
         return new BookMeta.Spigot() {
         };
     }
 
     @Override
-    public BookMeta clone() {
+    public @NotNull BookMeta clone() {
         return new GlowMetaBook(this);
     }
 
@@ -75,7 +75,7 @@ class GlowMetaBook extends GlowMetaItem implements BookMeta {
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = super.serialize();
         result.put("meta-type", "BOOK");
         if (hasAuthor()) {
@@ -220,12 +220,12 @@ class GlowMetaBook extends GlowMetaItem implements BookMeta {
     }
 
     @Override
-    public String getPage(int page) {
+    public @NotNull String getPage(int page) {
         return pages.get(page);
     }
 
     @Override
-    public void setPage(int page, String data) {
+    public void setPage(int page, @NotNull String data) {
         int size = getPageCount();
         if (page < 0 || page > size) {
             throw new IndexOutOfBoundsException("cannot set page " + page + " on size " + size);
@@ -242,7 +242,7 @@ class GlowMetaBook extends GlowMetaItem implements BookMeta {
     }
 
     @Override
-    public List<String> getPages() {
+    public @NotNull List<String> getPages() {
         return ImmutableList.copyOf(pages);
     }
 
@@ -253,7 +253,7 @@ class GlowMetaBook extends GlowMetaItem implements BookMeta {
     }
 
     @Override
-    public void setPages(List<String> pages) {
+    public void setPages(@NotNull List<String> pages) {
         this.pages = new ArrayList<>(pages);
         filterPages();
     }

@@ -19,6 +19,7 @@ import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaPotion extends GlowMetaItem implements PotionMeta {
 
@@ -98,12 +99,12 @@ public class GlowMetaPotion extends GlowMetaItem implements PotionMeta {
     }
 
     @Override
-    public GlowMetaPotion clone() {
+    public @NotNull GlowMetaPotion clone() {
         return new GlowMetaPotion(this);
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = super.serialize();
         result.put("meta-type", "POTION");
 
@@ -144,12 +145,12 @@ public class GlowMetaPotion extends GlowMetaItem implements PotionMeta {
     }
 
     @Override
-    public List<PotionEffect> getCustomEffects() {
+    public @NotNull List<PotionEffect> getCustomEffects() {
         return ImmutableList.copyOf(effects);
     }
 
     @Override
-    public boolean addCustomEffect(PotionEffect effect, boolean overwrite) {
+    public boolean addCustomEffect(@NotNull PotionEffect effect, boolean overwrite) {
         checkNotNull(effect, "PotionEffect cannot be null.");
 
         for (PotionEffect eff : effects) {
@@ -163,7 +164,7 @@ public class GlowMetaPotion extends GlowMetaItem implements PotionMeta {
     }
 
     @Override
-    public boolean removeCustomEffect(PotionEffectType type) {
+    public boolean removeCustomEffect(@NotNull PotionEffectType type) {
         Iterator<PotionEffect> it = effects.iterator();
 
         while (it.hasNext()) {
@@ -177,7 +178,7 @@ public class GlowMetaPotion extends GlowMetaItem implements PotionMeta {
     }
 
     @Override
-    public boolean hasCustomEffect(PotionEffectType type) {
+    public boolean hasCustomEffect(@NotNull PotionEffectType type) {
         for (PotionEffect effect : effects) {
             if (effect.getType() == type) {
                 return true;
@@ -188,7 +189,7 @@ public class GlowMetaPotion extends GlowMetaItem implements PotionMeta {
     }
 
     @Override
-    public boolean setMainEffect(PotionEffectType type) {
+    public boolean setMainEffect(@NotNull PotionEffectType type) {
         PotionEffect main = null;
         for (PotionEffect effect : effects) {
             if (effect.getType() == type) {

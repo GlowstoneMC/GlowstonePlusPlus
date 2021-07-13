@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.KnowledgeBookMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaKnowledgeBook extends GlowMetaItem implements KnowledgeBookMeta {
 
@@ -37,12 +38,12 @@ public class GlowMetaKnowledgeBook extends GlowMetaItem implements KnowledgeBook
     }
 
     @Override
-    public List<NamespacedKey> getRecipes() {
+    public @NotNull List<NamespacedKey> getRecipes() {
         return ImmutableList.copyOf(recipes);
     }
 
     @Override
-    public void setRecipes(List<NamespacedKey> recipes) {
+    public void setRecipes(@NotNull List<NamespacedKey> recipes) {
         this.recipes.clear();
         this.recipes.addAll(recipes);
     }
@@ -53,7 +54,7 @@ public class GlowMetaKnowledgeBook extends GlowMetaItem implements KnowledgeBook
     }
 
     @Override
-    public KnowledgeBookMeta clone() {
+    public @NotNull KnowledgeBookMeta clone() {
         return new GlowMetaKnowledgeBook(this);
     }
 }

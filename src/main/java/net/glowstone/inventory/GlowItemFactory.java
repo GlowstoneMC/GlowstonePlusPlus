@@ -105,7 +105,7 @@ public final class GlowItemFactory implements ItemFactory {
     }
 
     @Override
-    public ItemStack ensureServerConversions(ItemStack itemStack) {
+    public @NotNull ItemStack ensureServerConversions(ItemStack itemStack) {
         // TODO: Implementation (1.12.1)
         return itemStack.clone();
     }

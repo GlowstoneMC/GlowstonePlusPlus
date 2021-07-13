@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class GlowMetaShield extends GlowMetaBanner {
 
@@ -41,7 +42,7 @@ public class GlowMetaShield extends GlowMetaBanner {
     }
 
     @Override
-    public ItemMeta clone() {
+    public @NotNull ItemMeta clone() {
         return new GlowMetaShield(this);
     }
 
@@ -51,7 +52,7 @@ public class GlowMetaShield extends GlowMetaBanner {
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> result = super.serialize();
         result.put("meta-type", "SHIELD");
         List<Map<String, String>> patternsList = new ArrayList<>();
