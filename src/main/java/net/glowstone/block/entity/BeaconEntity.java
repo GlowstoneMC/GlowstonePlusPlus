@@ -1,20 +1,14 @@
 package net.glowstone.block.entity;
 
 import com.destroystokyo.paper.event.block.BeaconEffectEvent;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import net.glowstone.EventFactory;
 import net.glowstone.block.GlowBlock;
-import net.glowstone.block.MaterialUtil;
+import net.glowstone.block.GlowTags;
 import net.glowstone.block.entity.state.GlowBeacon;
 import net.glowstone.entity.GlowPlayer;
 import net.glowstone.util.nbt.CompoundTag;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Beacon;
 import org.bukkit.entity.Player;
@@ -23,15 +17,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class BeaconEntity extends BlockEntity {
-
-    private static final Set<Material> BEACON_BASE = Sets.newHashSet(
-        Material.EMERALD_BLOCK, Material.GOLD_BLOCK,
-        Material.DIAMOND_BLOCK, Material.IRON_BLOCK
-    );
-    private static final Set<Material> TRANSPARENT_BLOCKS = ImmutableSet.of(
-        Sets.newHashSet(Material.AIR, Material.GLASS, Material.GLASS_PANE),
-        MaterialUtil.STAINED_GLASS_PANES, MaterialUtil.STAINED_GLASS_BLOCKS
-    ).stream().flatMap(Collection::stream).collect(Collectors.toSet());
 
     private String lock = null; // todo: support item locks
     @Getter
@@ -71,8 +56,8 @@ public class BeaconEntity extends BlockEntity {
     private boolean canBeEnabled() {
         World world = block.getWorld();
         for (int y = block.getY() + 1; y < world.getMaxHeight(); y++) {
-            if (!TRANSPARENT_BLOCKS
-                .contains(world.getBlockAt(block.getX(), y, block.getZ()).getType())) {
+            if (!GlowTags.TRANSPARENT_BLOCKS
+                .isTagged(world.getBlockAt(block.getX(), y, block.getZ()).getType())) {
                 return false;
             }
         }
@@ -91,8 +76,8 @@ public class BeaconEntity extends BlockEntity {
             boolean isLayerComplete = true;
             for (int x = beaconX - layer; x <= beaconX + layer && isLayerComplete; ++x) {
                 for (int z = beaconZ - layer; z <= beaconZ + layer; ++z) {
-                    if (!BEACON_BASE
-                        .contains(getBlock().getWorld().getBlockAt(x, layerY, z).getType())) {
+                    if (!GlowTags.BEACON_BASE
+                        .isTagged(getBlock().getWorld().getBlockAt(x, layerY, z).getType())) {
                         isLayerComplete = false;
                         break;
                     }

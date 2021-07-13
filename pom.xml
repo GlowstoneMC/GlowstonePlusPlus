@@ -14,6 +14,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <api.version>1.16.5-R0.1-SNAPSHOT</api.version>
+    <redstone.transformer.version>1.0.0-SNAPSHOT</redstone.transformer.version>
     <linkstone.version>1.0.0-SNAPSHOT</linkstone.version>
     <minecraft.version>1.16.5</minecraft.version>
     <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
@@ -78,7 +79,12 @@
     <dependency>
       <groupId>net.glowstone</groupId>
       <artifactId>block-data-generated</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>${redstone.transformer.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.glowstone</groupId>
+      <artifactId>data-pack-generated</artifactId>
+      <version>${redstone.transformer.version}</version>
     </dependency>
     <dependency>
       <groupId>org.fusesource.jansi</groupId>

@@ -1,5 +1,6 @@
 package net.glowstone.block;
 
+import com.destroystokyo.paper.MaterialTags;
 import com.google.common.collect.Sets;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -146,6 +147,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.TreeSpecies;
 
 /**
@@ -186,10 +188,10 @@ public final class ItemTable {
         reg(Material.JUKEBOX, new BlockJukebox());
         reg(Material.NOTE_BLOCK, new BlockNote());
         reg(Material.SPAWNER, new BlockMobSpawner());
-        regAll(MaterialUtil.INFESTED, new BlockMonsterEgg());
+        regAll(MaterialTags.INFESTED_BLOCKS, new BlockMonsterEgg());
         reg(Material.DRAGON_EGG, new BlockFalling(Material.DRAGON_EGG));
-        regAll(MaterialUtil.SIGNS, new BlockSign(), Sound.BLOCK_WOOD_BREAK);
-        regAll(MaterialUtil.WALL_SIGNS, new BlockSign(), Sound.BLOCK_WOOD_BREAK);
+        regAll(Tag.SIGNS, BlockSign::new, Sound.BLOCK_WOOD_BREAK);
+        regAll(Tag.WALL_SIGNS, BlockSign::new, Sound.BLOCK_WOOD_BREAK);
         reg(Material.CRAFTING_TABLE, new BlockWorkbench(), Sound.BLOCK_WOOD_BREAK);
         reg(Material.ENDER_CHEST, new BlockEnderChest());
         reg(Material.CHEST, new BlockChest(), Sound.BLOCK_WOOD_BREAK);
@@ -198,15 +200,15 @@ public final class ItemTable {
         reg(Material.DROPPER, new BlockDropper());
         reg(Material.BOOKSHELF, new BlockDirectDrops(Material.BOOK, 3), Sound.BLOCK_WOOD_BREAK);
         reg(Material.CLAY, new BlockDirectDrops(Material.CLAY_BALL, 4), Sound.BLOCK_GRAVEL_BREAK);
-        regAll(MaterialUtil.UNGLAZED_TERRACOTTA, new BlockDirectDrops(ToolType.PICKAXE));
-        regAll(MaterialUtil.GLAZED_TERRACOTTA, new BlockDirectDrops(ToolType.PICKAXE));
-        regAll(MaterialUtil.WOODEN_DOORS, BlockDoor::new, Sound.BLOCK_WOOD_BREAK);
+        regAll(MaterialTags.STAINED_TERRACOTTA, new BlockDirectDrops(ToolType.PICKAXE));
+        regAll(MaterialTags.GLAZED_TERRACOTTA, new BlockDirectDrops(ToolType.PICKAXE));
+        regAll(Tag.WOODEN_DOORS, BlockDoor::new, Sound.BLOCK_WOOD_BREAK);
         reg(Material.IRON_DOOR, new BlockDoor(Material.IRON_DOOR));
         reg(Material.FARMLAND, new BlockFarmland(), Sound.BLOCK_GRAVEL_BREAK);
         reg(Material.GLASS, new BlockDropless());
         reg(Material.GLASS_PANE, new BlockDropless());
-        regAll(MaterialUtil.STAINED_GLASS_BLOCKS, new BlockDropless());
-        regAll(MaterialUtil.STAINED_GLASS_PANES, new BlockDropless());
+        regAll(MaterialTags.STAINED_GLASS, new BlockDropless());
+        regAll(MaterialTags.STAINED_GLASS_PANES, new BlockDropless());
         reg(Material.GLOWSTONE, new BlockRandomDrops(Material.GLOWSTONE_DUST, 2, 4));
         reg(Material.MYCELIUM, new BlockMycel(), Sound.BLOCK_GRAVEL_BREAK);
         reg(Material.GRASS, new BlockGrass(), Sound.BLOCK_GRASS_BREAK);
@@ -224,7 +226,7 @@ public final class ItemTable {
         reg(Material.NETHER_BRICK, new BlockDirectDrops(ToolType.PICKAXE));
         reg(Material.NETHER_BRICK_FENCE,
             new BlockFence(Material.NETHER_BRICK_FENCE, ToolType.PICKAXE));
-        regAll(MaterialUtil.WOODEN_FENCES, BlockFence::new);
+        regAll(Tag.WOODEN_FENCES, BlockFence::new);
         reg(Material.NETHERRACK, new BlockDirectDrops(ToolType.PICKAXE));
         reg(Material.IRON_BARS, new BlockDirectDrops(ToolType.PICKAXE)); // TODO: Convert
         reg(Material.BRICK, new BlockDirectDrops(ToolType.PICKAXE));
@@ -257,7 +259,7 @@ public final class ItemTable {
         reg(Material.TALL_GRASS, new BlockTallGrass(), Sound.BLOCK_GRASS_BREAK);
         reg(Material.RED_MUSHROOM_BLOCK, new BlockHugeMushroom(true), Sound.BLOCK_WOOD_BREAK);
         reg(Material.BROWN_MUSHROOM_BLOCK, new BlockHugeMushroom(false), Sound.BLOCK_WOOD_BREAK);
-        regAll(MaterialUtil.LEAVES, new BlockLeaves(), Sound.BLOCK_GRASS_BREAK);
+        regAll(Tag.LEAVES, new BlockLeaves(), Sound.BLOCK_GRASS_BREAK);
         reg(Material.MELON, new BlockMelon(), Sound.BLOCK_WOOD_BREAK);
         reg(Material.MELON_STEM, new BlockStem(Material.MELON_STEM), Sound.BLOCK_GRASS_BREAK);
         reg(Material.NETHER_WART, new BlockNetherWart(), Sound.BLOCK_GRASS_BREAK);
@@ -268,28 +270,27 @@ public final class ItemTable {
         reg(Material.COBWEB, new BlockWeb());
         reg(Material.FIRE, new BlockFire());
         reg(Material.END_PORTAL_FRAME, new BlockEnderPortalFrame());
-        regAll(MaterialUtil.WOODEN_GATES, new BlockFenceGate());
-        regAll(MaterialUtil.TRAPDOORS, new BlockWoodenTrapDoor(), Sound.BLOCK_WOOD_BREAK);
+        regAll(MaterialTags.WOODEN_GATES, new BlockFenceGate());
+        regAll(Tag.TRAPDOORS, new BlockWoodenTrapDoor(), Sound.BLOCK_WOOD_BREAK);
         reg(Material.IRON_TRAPDOOR, new BlockIronTrapDoor());
         reg(Material.FURNACE, new BlockFurnace());
         reg(Material.LEVER, new BlockLever());
         reg(Material.HOPPER, new BlockHopper());
         reg(Material.PISTON, new BlockPiston(false));
         reg(Material.STICKY_PISTON, new BlockPiston(true));
-        regAll(MaterialUtil.WOODEN_STAIRS, new BlockStairs(), Sound.BLOCK_WOOD_BREAK);
-        regAll(Sets.difference(MaterialUtil.STAIRS, MaterialUtil.WOODEN_STAIRS), new BlockStairs());
-        regAll(MaterialUtil.WOODEN_SLABS, new BlockSlab(), Sound.BLOCK_WOOD_BREAK);
-        regAll(Sets.difference(MaterialUtil.SLABS, MaterialUtil.WOODEN_SLABS), new BlockSlab());
+        regAll(Tag.WOODEN_STAIRS, new BlockStairs(), Sound.BLOCK_WOOD_BREAK);
+        regAll(Sets.difference(Tag.STAIRS.getValues(), Tag.WOODEN_STAIRS.getValues()), new BlockStairs());
+        regAll(Tag.WOODEN_SLABS, new BlockSlab(), Sound.BLOCK_WOOD_BREAK);
+        regAll(Sets.difference(Tag.SLABS.getValues(), Tag.WOODEN_SLABS.getValues()), new BlockSlab());
         reg(Material.HAY_BLOCK, new BlockHay());
         reg(Material.QUARTZ_BLOCK, new BlockQuartz());
-        regAll(MaterialUtil.LOGS, new BlockLog(), Sound.BLOCK_WOOD_BREAK);
+        regAll(Tag.LOGS, new BlockLog(), Sound.BLOCK_WOOD_BREAK);
         reg(Material.LADDER, new BlockLadder(), Sound.BLOCK_WOOD_BREAK);
         reg(Material.VINE, new BlockVine());
         reg(Material.STONE_BUTTON, new BlockButton(Material.STONE_BUTTON));
-        regAll(MaterialUtil.WOODEN_BUTTONS, BlockButton::new, Sound.BLOCK_WOOD_BREAK);
-        regAll(MaterialUtil.BEDS, new BlockBed());
-        regAll(MaterialUtil.STANDING_HEADS, new BlockSkull());
-        regAll(MaterialUtil.WALL_HEADS, new BlockSkull());
+        regAll(Tag.WOODEN_BUTTONS, BlockButton::new, Sound.BLOCK_WOOD_BREAK);
+        regAll(MaterialTags.BEDS, new BlockBed());
+        regAll(MaterialTags.SKULLS, new BlockSkull());
         reg(Material.TORCH, new BlockTorch());
         reg(Material.LIGHT_WEIGHTED_PRESSURE_PLATE,
             new BlockDirectDrops(Material.LIGHT_WEIGHTED_PRESSURE_PLATE, ToolType.PICKAXE));
@@ -298,16 +299,16 @@ public final class ItemTable {
         reg(Material.STONE_PRESSURE_PLATE,
             new BlockDirectDrops(Material.STONE_PRESSURE_PLATE, ToolType.PICKAXE));
         reg(Material.DAYLIGHT_DETECTOR, new BlockDaylightDetector());
-        regAll(MaterialUtil.OVERWORLD_FLOWERS, new BlockNeedsAttached());
+        regAll(Tag.FLOWERS, new BlockNeedsAttached());
         reg(Material.BROWN_MUSHROOM, new BlockMushroom(Material.BROWN_MUSHROOM));
         reg(Material.RED_MUSHROOM, new BlockMushroom(Material.RED_MUSHROOM));
         reg(Material.SUGAR_CANE, new BlockSugarCane(), Sound.BLOCK_GRASS_BREAK);
-        regAll(MaterialUtil.SAPLINGS, new BlockSapling());
+        regAll(Tag.SAPLINGS, new BlockSapling());
         reg(Material.RAIL, new BlockRails());
         reg(Material.ACTIVATOR_RAIL, new BlockRails());
         reg(Material.DETECTOR_RAIL, new BlockRails());
         reg(Material.POWERED_RAIL, new BlockRails());
-        regAll(MaterialUtil.CARPETS, new BlockCarpet(), Sound.BLOCK_WOOL_BREAK);
+        regAll(Tag.CARPETS, new BlockCarpet(), Sound.BLOCK_WOOL_BREAK);
         reg(Material.ENCHANTING_TABLE, new BlockEnchantmentTable());
         reg(Material.BREWING_STAND, new BlockBrewingStand());
         reg(Material.CACTUS, new BlockCactus());
@@ -336,21 +337,21 @@ public final class ItemTable {
         reg(Material.PURPUR_PILLAR, new BlockPurpurPillar());
         reg(Material.PURPUR_BLOCK, new BlockDirectDrops(Material.PURPUR_BLOCK, ToolType.PICKAXE));
         reg(Material.END_ROD, new BlockEndRod());
-        regAll(MaterialUtil.CONCRETE, BlockDirectDrops::new);
-        regAll(MaterialUtil.CONCRETE_POWDER, new BlockConcretePowder());
-        regAll(MaterialUtil.GLAZED_TERRACOTTA, BlockDirectDrops::new);
+        regAll(MaterialTags.CONCRETES, BlockDirectDrops::new);
+        regAll(MaterialTags.CONCRETE_POWDER, new BlockConcretePowder());
+        regAll(MaterialTags.GLAZED_TERRACOTTA, BlockDirectDrops::new);
         reg(Material.CHORUS_FLOWER, new BlockChorusFlower());
         reg(Material.CHORUS_PLANT, new BlockChorusPlant());
         reg(Material.GRASS_PATH, new BlockGrassPath(), Sound.BLOCK_GRASS_BREAK);
 
         // Non-block and ItemPlaceAs items:
         reg(Material.FLINT_AND_STEEL, new ItemFlintAndSteel());
-        regAll(MaterialUtil.SIGNS, new ItemSign());
+        regAll(Tag.SIGNS, new ItemSign());
         reg(Material.REDSTONE, new ItemPlaceAs(Material.REDSTONE_WIRE));
         reg(Material.BREWING_STAND, new ItemPlaceAs(Material.BREWING_STAND));
         reg(Material.CAULDRON, new ItemPlaceAs(Material.CAULDRON));
         reg(Material.FLOWER_POT, new ItemPlaceAs(Material.FLOWER_POT));
-        regAll(MaterialUtil.STANDING_HEADS, ItemPlaceAs::new);
+        regAll(MaterialTags.SKULLS, ItemPlaceAs::new);
         reg(Material.BUCKET, new ItemBucket());
         reg(Material.WATER_BUCKET, new ItemFilledBucket(Material.WATER));
         reg(Material.LAVA_BUCKET, new ItemFilledBucket(Material.LAVA));
@@ -364,7 +365,7 @@ public final class ItemTable {
         reg(Material.IRON_SHOVEL, new ItemShovel());
         reg(Material.GOLDEN_SHOVEL, new ItemShovel());
         reg(Material.DIAMOND_SHOVEL, new ItemShovel());
-        regAll(MaterialUtil.SPAWN_EGGS, new ItemSpawn());
+        regAll(MaterialTags.SPAWN_EGGS, new ItemSpawn());
         reg(Material.WHEAT_SEEDS, new ItemSeeds(Material.WHEAT, Material.FARMLAND));
         reg(Material.MELON_SEEDS, new ItemSeeds(Material.MELON_STEM, Material.FARMLAND));
         reg(Material.PUMPKIN_SEEDS, new ItemSeeds(Material.PUMPKIN_STEM, Material.FARMLAND));
@@ -372,7 +373,7 @@ public final class ItemTable {
         reg(Material.CARROT, new ItemFoodSeeds(Material.CARROT, Material.FARMLAND, 3, 3.6f));
         reg(Material.POTATO, new ItemFoodSeeds(Material.POTATO, Material.FARMLAND, 1, 0.6f));
         reg(Material.INK_SAC, new ItemDye());
-        regAll(MaterialUtil.BANNERS, new ItemBanner());
+        regAll(Tag.BANNERS, new ItemBanner());
         reg(Material.IRON_DOOR, new ItemPlaceAs(Material.IRON_DOOR));
         reg(Material.WRITTEN_BOOK, new ItemWrittenBook());
         reg(Material.ITEM_FRAME, new ItemItemFrame());
@@ -480,10 +481,18 @@ public final class ItemTable {
         }
     }
 
+    private void regAll(Tag<Material> tag, ItemType type) {
+        regAll(tag.getValues(), type);
+    }
+
     private void regAll(Iterable<Material> materials, ItemType type) {
         for (Material material : materials) {
             reg(material, type);
         }
+    }
+
+    private void regAll(Tag<Material> tag, ItemType type, Sound sound) {
+        regAll(tag.getValues(), type, sound);
     }
 
     private void regAll(Iterable<Material> materials, ItemType type, Sound sound) {
@@ -492,11 +501,21 @@ public final class ItemTable {
         }
     }
 
+    private void regAll(Tag<Material> tag,
+            Function<? super Material, ? extends ItemType> itemTypeFunction) {
+        regAll(tag.getValues(), itemTypeFunction);
+    }
+
     private void regAll(Iterable<Material> items,
                         Function<? super Material, ? extends ItemType> itemTypeFunction) {
         for (Material item : items) {
             reg(item, itemTypeFunction.apply(item));
         }
+    }
+
+    private void regAll(Tag<Material> tag,
+            Function<? super Material, ? extends ItemType> itemTypeFunction, Sound sound) {
+        regAll(tag.getValues(), itemTypeFunction, sound);
     }
 
     private void regAll(Iterable<Material> items,

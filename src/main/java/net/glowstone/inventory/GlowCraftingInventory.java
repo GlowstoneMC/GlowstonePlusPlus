@@ -3,8 +3,8 @@ package net.glowstone.inventory;
 import java.util.Arrays;
 import net.glowstone.GlowServer;
 import net.glowstone.ServerProvider;
+import net.glowstone.datapack.RecipeManager;
 import net.glowstone.entity.GlowPlayer;
-import net.glowstone.inventory.crafting.CraftingManager;
 import net.glowstone.util.InventoryUtil;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
@@ -69,18 +69,15 @@ public class GlowCraftingInventory extends GlowInventory implements CraftingInve
             final ItemStack[] matrix = getMatrix();
 
             // Set to correct amount (tricking the client and click handler)
-            int recipeAmount = CraftingManager.getLayers(matrix);
+            int recipeAmount = getLayers(matrix);
             clickedItem.setAmount(clickedItem.getAmount() * recipeAmount);
 
             // Place the items in the player's inventory (right to left)
             player.getInventory().tryToFillSlots(clickedItem, 8, -1, 35, 8);
 
-            // Avoid calling craft because we already know the player can craft 'recipeAmount' of
-            // this item
-            CraftingManager cm = player.getServer().getCraftingManager();
             // Removing all the items at once will avoid multiple useless calls to craft
             // (and all of its sub methods like getRecipe)
-            cm.removeItems(matrix, this, recipeAmount);
+            removeItems(matrix, this, recipeAmount);
         } else {
             // Clicked in the crafting grid, no special handling required
             // (just place them left to right)
@@ -98,12 +95,11 @@ public class GlowCraftingInventory extends GlowInventory implements CraftingInve
      * Remove a layer of items from the inventory.
      */
     public void craft() {
-        ItemStack[] matrix = getMatrix();
-        CraftingManager cm = ((GlowServer) ServerProvider.getServer()).getCraftingManager();
-        Recipe recipe = cm.getCraftingRecipe(matrix);
+        RecipeManager cm = ((GlowServer) ServerProvider.getServer()).getRecipeManager();
+        Recipe recipe = cm.getRecipe(this);
 
         if (recipe != null) {
-            cm.removeItems(matrix, this);
+            removeItems(getMatrix(), this);
         }
     }
 
@@ -137,8 +133,8 @@ public class GlowCraftingInventory extends GlowInventory implements CraftingInve
 
     @Override
     public Recipe getRecipe() {
-        return ((GlowServer) ServerProvider.getServer()).getCraftingManager()
-            .getCraftingRecipe(getMatrix());
+        return ((GlowServer) ServerProvider.getServer()).getRecipeManager()
+            .getRecipe(this);
     }
 
     /**
@@ -150,6 +146,59 @@ public class GlowCraftingInventory extends GlowInventory implements CraftingInve
             super.setItem(RESULT_SLOT, InventoryUtil.createEmptyStack());
         } else {
             super.setItem(RESULT_SLOT, recipe.getResult());
+        }
+    }
+
+    /**
+     * Get the amount of layers in the crafting matrix. This assumes all Minecraft recipes have an
+     * item stack of 1 for all items in the recipe.
+     *
+     * @param items The items in the crafting matrix.
+     * @return The number of stacks for a recipe.
+     */
+    private static int getLayers(ItemStack... items) {
+        int layers = 0;
+        for (ItemStack item : items) {
+            if (!InventoryUtil.isEmpty(item) && (item.getAmount() < layers || layers == 0)) {
+                layers = item.getAmount();
+            }
+        }
+        return layers;
+    }
+
+    /**
+     * Remove a layer of items from the crafting matrix and recipe result.
+     *
+     * @param items The items to remove the ingredients from.
+     * @param inv   The inventory to remove the items from.
+     */
+    private static void removeItems(ItemStack[] items, GlowCraftingInventory inv) {
+        removeItems(items, inv, 1);
+    }
+
+    /**
+     * Remove a specific amount of layers from the crafting matrix and recipe result.
+     *
+     * @param items  The items to remove the ingredients from.
+     * @param inv    The inventory to remove the items from.
+     * @param amount The amount of items you want to remove.
+     */
+    private static void removeItems(final ItemStack[] items, final GlowCraftingInventory inv,
+                                    final int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Can not remove negative amount of layers.");
+        }
+
+        for (int i = 0; i < items.length; i++) {
+            if (!InventoryUtil.isEmpty(items[i])) {
+                int itemAmount = items[i].getAmount();
+                if (itemAmount > amount) {
+                    items[i].setAmount(itemAmount - amount);
+                    inv.updateResultSlot();
+                } else {
+                    inv.setItem(i + 1, InventoryUtil.createEmptyStack());
+                }
+            }
         }
     }
 

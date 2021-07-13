@@ -7,8 +7,7 @@ import net.glowstone.block.entity.state.GlowSign;
 import net.glowstone.entity.GlowPlayer;
 import net.glowstone.util.TextMessage;
 import net.glowstone.util.nbt.CompoundTag;
-import org.bukkit.block.data.type.Sign;
-import org.bukkit.block.data.type.WallSign;
+import org.bukkit.Tag;
 
 public class SignEntity extends BlockEntity {
 
@@ -23,7 +22,7 @@ public class SignEntity extends BlockEntity {
         super(block);
         setSaveId("minecraft:sign");
 
-        if (block.getType().data != Sign.class && block.getType().data != WallSign.class) {
+        if (Tag.WALL_SIGNS.isTagged(block.getType()) && Tag.STANDING_SIGNS.isTagged(block.getType())) {
             throw new IllegalArgumentException(
                 "Sign must be WALL_SIGN or SIGN, got " + block.getType());
         }

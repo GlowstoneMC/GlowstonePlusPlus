@@ -3,12 +3,12 @@ package net.glowstone.block.blocktype;
 import net.glowstone.block.GlowBlock;
 import net.glowstone.block.GlowBlockState;
 import net.glowstone.block.ItemTable;
-import net.glowstone.block.MaterialUtil;
 import net.glowstone.block.entity.BlockEntity;
 import net.glowstone.block.entity.SignEntity;
 import net.glowstone.chunk.GlowChunk;
 import net.glowstone.entity.GlowPlayer;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Sign;
@@ -16,9 +16,8 @@ import org.bukkit.util.Vector;
 
 public class BlockSign extends BlockNeedsAttached {
 
-    public BlockSign() {
-        // TODO: Support other types of wood
-        setDrops(new ItemStack(Material.OAK_SIGN));
+    public BlockSign(Material material) {
+        setDrops(new ItemStack(material));
     }
 
     @Override
@@ -48,8 +47,6 @@ public class BlockSign extends BlockNeedsAttached {
     public boolean canPlaceAt(GlowPlayer player, GlowBlock block, BlockFace against) {
         Material targetMat = ItemTable.instance().getBlock(
             block.getRelative(against.getOppositeFace()).getType()).getMaterial();
-        return canAttachTo(block, against)
-            || MaterialUtil.SIGNS.contains(targetMat)
-            || MaterialUtil.WALL_SIGNS.contains(targetMat);
+        return canAttachTo(block, against) || Tag.SIGNS.isTagged(targetMat);
     }
 }

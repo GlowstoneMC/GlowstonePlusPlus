@@ -41,7 +41,7 @@ public class ItemKnowledgeBook extends ItemType {
             if (recipes.hasRecipes()) {
                 for (NamespacedKey recipe : recipes.getRecipes()) {
                     player.learnRecipe(((GlowServer) ServerProvider.getServer())
-                        .getCraftingManager().getRecipeByKey(recipe), true);
+                            .getRecipeManager().getRecipe(recipe), true);
                 }
             }
 

@@ -116,7 +116,12 @@ import net.glowstone.command.minecraft.WorldBorderCommand;
 import net.glowstone.command.minecraft.XpCommand;
 import net.glowstone.constants.GlowEnchantment;
 import net.glowstone.constants.GlowPotionEffect;
-import net.glowstone.data.GlowTag;
+import net.glowstone.datapack.FuelManager;
+import net.glowstone.datapack.RecipeManager;
+import net.glowstone.datapack.TagManager;
+import net.glowstone.datapack.vanilla.VanillaFuelManager;
+import net.glowstone.datapack.vanilla.VanillaRecipeManager;
+import net.glowstone.datapack.vanilla.VanillaTagManager;
 import net.glowstone.entity.EntityIdManager;
 import net.glowstone.entity.FishingRewardManager;
 import net.glowstone.entity.GlowPlayer;
@@ -131,7 +136,6 @@ import net.glowstone.i18n.ConsoleMessages;
 import net.glowstone.i18n.GlowstoneMessages;
 import net.glowstone.inventory.GlowInventory;
 import net.glowstone.inventory.GlowItemFactory;
-import net.glowstone.inventory.crafting.CraftingManager;
 import net.glowstone.io.PlayerDataService;
 import net.glowstone.io.PlayerStatisticIoService;
 import net.glowstone.io.ScoreboardIoService;
@@ -305,9 +309,13 @@ public class GlowServer implements Server {
      */
     private final GlowScoreboardManager scoreboardManager = new GlowScoreboardManager(this);
     /**
-     * The crafting manager for this server.
+     * The recipe manager for this server.
      */
-    private final CraftingManager craftingManager = new CraftingManager();
+    private final RecipeManager recipeManager;
+    /**
+     * The fuel manager for this server.
+     */
+    private final FuelManager fuelManager;
     /**
      * What manages the mapping of Material to BlockData and the mapping between State ID and BlockData.
      */
@@ -376,7 +384,7 @@ public class GlowServer implements Server {
     /**
      * The {@link Tag}s of this server, per registry, mapped by namespaced key.
      */
-    private final Map<String, Map<NamespacedKey, Tag<? extends Keyed>>> tags;
+    private final TagManager tagManager;
     /**
      * Default root permissions.
      */
@@ -519,7 +527,9 @@ public class GlowServer implements Server {
 
         loadConfig();
         bossBars = new ConcurrentHashMap<>();
-        tags = new HashMap<>();
+        tagManager = new VanillaTagManager();
+        recipeManager = new VanillaRecipeManager(tagManager);
+        fuelManager = new VanillaFuelManager(tagManager);
     }
 
     /**
@@ -1043,7 +1053,6 @@ public class GlowServer implements Server {
         whitelistEnabled = config.getBoolean(Key.WHITELIST);
         idleTimeout = config.getInt(Key.PLAYER_IDLE_TIMEOUT);
         maxPlayers = config.getInt(Key.MAX_PLAYERS);
-        craftingManager.initialize();
 
         // special handling
         warnState = WarningState.value(config.getString(Key.WARNING_STATE));
@@ -1472,7 +1481,7 @@ public class GlowServer implements Server {
             ipBans.load();
 
             // Reset crafting
-            craftingManager.resetRecipes();
+            recipeManager.resetToDefaults();
 
             // Load plugins
             loadPlugins();
@@ -1538,17 +1547,18 @@ public class GlowServer implements Server {
 
     @Override
     public <T extends Keyed> Tag<T> getTag(@NotNull String registry, @NotNull NamespacedKey tagKey, @NotNull Class<T> clazz) {
-        // TODO: what are we supposed to do with clazz?
-        return (Tag<T>) tags.computeIfAbsent(registry, k -> new HashMap<>()).computeIfAbsent(tagKey, k -> new GlowTag<T>(tagKey));
+        return tagManager.getTag(registry, tagKey, clazz);
     }
 
     @Override
-    public @NotNull <T extends Keyed> Iterable<Tag<T>> getTags(@NotNull String registry,
-            @NotNull Class<T> clazz) {
-        // TODO: what are we supposed to do with clazz?
-        // TODO: 1.13 impl
-        //return tags.computeIfAbsent(registry, k -> new HashMap<>()).values();
-        return null;
+    public @NotNull <T extends Keyed> Iterable<Tag<T>> getTags(@NotNull String registry, @NotNull Class<T> clazz) {
+        Set<Tag<T>> tags = new HashSet<>();
+
+        for (NamespacedKey key : tagManager.getAllKeysInRegistry(registry)) {
+            tags.add(tagManager.getTag(registry, key, clazz));
+        }
+
+        return tags;
     }
 
     @Override
@@ -1661,12 +1671,21 @@ public class GlowServer implements Server {
     }
 
     /**
-     * Return the crafting manager.
+     * Return the recipe manager.
      *
-     * @return The server's crafting manager.
+     * @return The server's recipe manager.
      */
-    public CraftingManager getCraftingManager() {
-        return craftingManager;
+    public RecipeManager getRecipeManager() {
+        return recipeManager;
+    }
+
+    /**
+     * Return the fuel manager.
+     *
+     * @return The server's fuel manager.
+     */
+    public FuelManager getFuelManager() {
+        return fuelManager;
     }
 
     /**
@@ -2476,37 +2495,37 @@ public class GlowServer implements Server {
 
     @Override
     public List<Recipe> getRecipesFor(ItemStack result) {
-        return craftingManager.getRecipesFor(result);
+        return recipeManager.getAllRecipesForResult(result);
     }
 
     @Override
     public Recipe getRecipe(@NotNull NamespacedKey key) {
-        return craftingManager.getRecipeByKey(key);
+        return recipeManager.getRecipe(key);
     }
 
     @Override
     public Iterator<Recipe> recipeIterator() {
-        return craftingManager.iterator();
+        return recipeManager.getAllRecipes();
     }
 
     @Override
     public boolean addRecipe(Recipe recipe) {
-        return craftingManager.addRecipe(recipe);
+        return recipeManager.addRecipe(recipe);
     }
 
     @Override
     public void clearRecipes() {
-        craftingManager.clearRecipes();
+        recipeManager.clearRecipes();
     }
 
     @Override
     public void resetRecipes() {
-        craftingManager.resetRecipes();
+        recipeManager.resetToDefaults();
     }
 
     @Override
     public boolean removeRecipe(@NotNull NamespacedKey key) {
-        return craftingManager.removeRecipe(key);
+        return recipeManager.removeRecipe(key);
     }
 
     @Override
@@ -2741,6 +2760,11 @@ public class GlowServer implements Server {
 
     public String getServerId() {
         return Integer.toHexString(getServerName().hashCode());
+    }
+
+    @Override
+    public int getMaxPlayers() {
+        return config.getInt(Key.MAX_PLAYERS);
     }
 
     @Override

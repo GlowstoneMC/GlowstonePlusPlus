@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import net.glowstone.block.GlowBlock;
 import net.glowstone.block.GlowBlockState;
-import net.glowstone.block.MaterialUtil;
 import net.glowstone.block.entity.SignEntity;
 import net.kyori.adventure.text.Component;
 import org.bukkit.DyeColor;
-import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Sign;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -29,10 +28,9 @@ public class GlowSign extends GlowBlockState implements Sign {
      */
     public GlowSign(GlowBlock block) {
         super(block);
-        final Material type = block.getType();
-        if (!MaterialUtil.SIGNS.contains(type) && !MaterialUtil.WALL_SIGNS.contains(type)) {
+        if (Tag.WALL_SIGNS.isTagged(block.getType()) && Tag.STANDING_SIGNS.isTagged(block.getType())) {
             throw new IllegalArgumentException(
-                "GlowSign: expected WALL_SIGN or SIGN got " + type);
+                "GlowSign: expected WALL_SIGN or STANDING_SIGN got " + block.getType());
         }
         lines = getBlockEntity().getLines();
     }

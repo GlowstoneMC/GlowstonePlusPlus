@@ -8,7 +8,6 @@ import net.glowstone.GlowServer;
 import net.glowstone.block.GlowBlock;
 import net.glowstone.block.GlowBlockState;
 import net.glowstone.block.ItemTable;
-import net.glowstone.block.MaterialUtil;
 import net.glowstone.block.data.BlockDataManager;
 import net.glowstone.chunk.GlowChunk;
 import net.glowstone.entity.GlowPlayer;
@@ -16,6 +15,7 @@ import net.glowstone.net.message.play.game.BlockChangeMessage;
 import net.glowstone.scheduler.PulseTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.BlockData;
@@ -222,7 +222,7 @@ public class BlockRedstone extends BlockNeedsAttached {
                             if (data.isPowered() && data.getFacing() == target2.getFace(target)) {
                                 setFullyPowered(me);
                                 return;
-                            } else if (MaterialUtil.BUTTONS.contains(target2.getType())) {
+                            } else if (Tag.BUTTONS.isTagged(target2.getType())) {
                                 Button button2 = (Button) target2.getState().getData();
                                 if (button2.isPowered() && button2.getAttachedFace() == target2
                                     .getFace(target)) {
@@ -237,7 +237,7 @@ public class BlockRedstone extends BlockNeedsAttached {
                                     return;
                                 }
                             }
-                        } else if (MaterialUtil.BUTTONS.contains(target2.getType())) {
+                        } else if (Tag.BUTTONS.isTagged(target2.getType())) {
                             Button button2 = (Button) target2.getState().getData();
                             if (button2.isPowered() && button2.getAttachedFace() == target2
                                 .getFace(target)) {

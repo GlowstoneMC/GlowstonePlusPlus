@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.function.Function;
 import lombok.Getter;
 import net.glowstone.GlowServer;
+import net.glowstone.block.data.BlockDataManager;
+import net.glowstone.block.data.states.StatefulBlockData;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -103,10 +105,13 @@ public class GlowParticle {
         });
         registerParticleDataHandler(ItemStack.class, PARTICLE_HANDLER_RETURN_SELF);
         registerParticleDataHandler(BlockData.class, o -> {
-            if (o.getClass() != BlockData.class) {
+            if (!BlockData.class.isAssignableFrom(o.getClass())) {
                 return ArrayUtils.EMPTY_INTEGER_OBJECT_ARRAY;
             }
-            int id = ((GlowServer) Bukkit.getServer()).getBlockDataManager().convertToBlockId((BlockData) o);
+
+            BlockDataManager blockDataManager = ((GlowServer) Bukkit.getServer()).getBlockDataManager();
+            StatefulBlockData blockData = blockDataManager.convertToStatefulBlockData((BlockData) o);
+            int id = blockDataManager.convertToBlockId(blockData);
             return new Integer[]{id};
         });
     }

@@ -1,5 +1,6 @@
 package net.glowstone.block.blocktype;
 
+import com.destroystokyo.paper.MaterialTags;
 import com.google.common.collect.ImmutableSet;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,7 +8,6 @@ import java.util.EnumSet;
 import net.glowstone.GlowWorld;
 import net.glowstone.block.GlowBlock;
 import net.glowstone.block.GlowBlockState;
-import net.glowstone.block.MaterialUtil;
 import net.glowstone.block.entity.BedEntity;
 import net.glowstone.block.entity.BlockEntity;
 import net.glowstone.block.entity.state.GlowBed;
@@ -286,7 +286,7 @@ public class BlockBed extends BlockType {
     public void afterPlace(GlowPlayer player, GlowBlock block, ItemStack holding,
                            GlowBlockState oldState) {
         Material type = block.getType();
-        if (!MaterialUtil.BEDS.contains(type)) {
+        if (!MaterialTags.BEDS.isTagged(type)) {
             return;
         }
         GlowBed bed = (GlowBed) block.getState();

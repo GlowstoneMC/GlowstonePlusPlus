@@ -91,7 +91,7 @@ public class GlowFurnaceInventory extends GlowInventory implements FurnaceInvent
     public boolean itemPlaceAllowed(int slot, ItemStack stack) {
         if (slot == FUEL_SLOT) {
             return ((GlowServer) ServerProvider.getServer())
-                    .getCraftingManager().isFuel(stack.getType())
+                    .getFuelManager().isFuel(stack.getType())
                 || stack.getType().equals(Material.BUCKET);
         }
         return super.itemPlaceAllowed(slot, stack);

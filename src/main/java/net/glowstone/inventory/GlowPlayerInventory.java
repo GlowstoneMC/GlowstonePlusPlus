@@ -5,9 +5,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import lombok.Getter;
 import net.glowstone.GlowServer;
 import net.glowstone.ServerProvider;
+import net.glowstone.datapack.FuelManager;
+import net.glowstone.datapack.RecipeManager;
 import net.glowstone.entity.GlowHumanEntity;
 import net.glowstone.entity.GlowPlayer;
-import net.glowstone.inventory.crafting.CraftingManager;
 import net.glowstone.net.message.play.inv.HeldItemMessage;
 import net.glowstone.util.InventoryUtil;
 import org.bukkit.Location;
@@ -144,12 +145,13 @@ public class GlowPlayerInventory extends GlowInventory implements PlayerInventor
 
         if (topAllowsShiftClick) {
             if (top.getType().equals(InventoryType.FURNACE)) {
-                CraftingManager cm = ((GlowServer) ServerProvider.getServer()).getCraftingManager();
-                if (cm.getFurnaceRecipe(clickedItem) != null) {
+                RecipeManager rm = ((GlowServer) ServerProvider.getServer()).getRecipeManager();
+                FuelManager fm = ((GlowServer) ServerProvider.getServer()).getFuelManager();
+                if (rm.getRecipe(top.getType(), new ItemStack[]{clickedItem}) != null) {
                     // move items are be burnable to the input slot
                     // TODO: Use of variable (INPUT_SLOT) instead of hard coded value ?
                     clickedItem = top.tryToFillSlots(clickedItem, 0, -1);
-                } else if (cm.isFuel(clickedItem.getType())) {
+                } else if (fm.isFuel(clickedItem.getType())) {
                     // move fuel items direct to fuel slot
                     // TODO: Use of variable (FUEL_SLOT) instead of hard coded value ?
                     clickedItem = top.tryToFillSlots(clickedItem, 1, -1);

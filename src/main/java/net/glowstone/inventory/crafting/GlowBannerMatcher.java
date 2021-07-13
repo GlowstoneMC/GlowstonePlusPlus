@@ -1,10 +1,11 @@
 package net.glowstone.inventory.crafting;
 
+import com.destroystokyo.paper.MaterialTags;
 import java.util.List;
 import lombok.Getter;
-import net.glowstone.block.MaterialUtil;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.ItemStack;
@@ -28,14 +29,14 @@ public class GlowBannerMatcher extends ItemMatcher {
             if (item == null) {
                 continue;
             }
-            if (MaterialUtil.BANNERS.contains(item.getType())) {
+            if (Tag.BANNERS.isTagged(item.getType())) {
                 if (banner != null) {
                     return null; // Multiple banners found
                 }
                 banner = item;
                 continue;
             }
-            if (MaterialUtil.DYES.contains(item.getType())) {
+            if (MaterialTags.DYES.isTagged(item.getType())) {
                 DyeColor itemColor = ((Dye) item.getData()).getColor();
                 if (color != null && itemColor != color) {
                     return null; // Can't have multiple colors
@@ -56,11 +57,11 @@ public class GlowBannerMatcher extends ItemMatcher {
                         continue; // Ignore blanks
                     }
 
-                    if (MaterialUtil.BANNERS.contains(item.getType())) {
+                    if (Tag.BANNERS.isTagged(item.getType())) {
                         continue; // Banner is already checked
                     }
 
-                    if (MaterialUtil.DYES.contains(item.getType())) {
+                    if (MaterialTags.DYES.isTagged(item.getType())) {
                         if (foundDye) {
                             continue recipe; // Can't have multiple dyes
                         }
@@ -93,10 +94,10 @@ public class GlowBannerMatcher extends ItemMatcher {
                 for (int i = 0; i < 9; i++) {
                     boolean hasValue = recipe.getValues()[i] == '#';
                     ItemStack item = matrix[i];
-                    if (hasValue && item != null && MaterialUtil.DYES.contains(item.getType())) {
+                    if (hasValue && item != null && MaterialTags.DYES.isTagged(item.getType())) {
                         continue;
                     }
-                    if (!hasValue && (item == null || MaterialUtil.BANNERS.contains(item.getType()))) {
+                    if (!hasValue && (item == null || Tag.BANNERS.isTagged(item.getType()))) {
                         continue; // Allow banner and blanks
                     }
                     continue recipe; // Non-recipe item found or no dye where dye should be
