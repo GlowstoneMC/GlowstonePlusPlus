@@ -78,6 +78,7 @@ import net.glowstone.command.minecraft.DeopCommand;
 import net.glowstone.command.minecraft.DifficultyCommand;
 import net.glowstone.command.minecraft.EffectCommand;
 import net.glowstone.command.minecraft.EnchantCommand;
+import net.glowstone.command.minecraft.FillCommand;
 import net.glowstone.command.minecraft.FunctionCommand;
 import net.glowstone.command.minecraft.GameModeCommand;
 import net.glowstone.command.minecraft.GameRuleCommand;
@@ -1281,6 +1282,7 @@ public class GlowServer implements Server {
         commandMap.register("minecraft", new TestForCommand());
         commandMap.register("minecraft", new TestForBlockCommand());
         commandMap.register("minecraft", new SetBlockCommand());
+        commandMap.register("minecraft", new FillCommand());
         commandMap.register("minecraft", new CloneCommand());
         commandMap.register("minecraft", new TestForBlocksCommand());
 
