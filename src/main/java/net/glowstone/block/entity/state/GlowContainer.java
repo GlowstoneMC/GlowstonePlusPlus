@@ -2,6 +2,7 @@ package net.glowstone.block.entity.state;
 
 import com.destroystokyo.paper.loottable.LootableBlockInventory;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -27,9 +28,11 @@ public abstract class GlowContainer extends GlowBlockState implements LootableBl
     private final AtomicLong lootTableSeed = new AtomicLong(0);
     private final AtomicReference<LootTable> lootTable = new AtomicReference<>(null);
     private final Map<UUID, Long> playersWhoHaveLooted = new ConcurrentHashMap<>();
+
     @Getter
-    @Setter
-    private String lock;
+    @NotNull
+    private String lock = "";
+
     @Getter
     @Setter
     private String customName;
@@ -42,6 +45,11 @@ public abstract class GlowContainer extends GlowBlockState implements LootableBl
     public void setLootTable(@Nullable LootTable table, long seed) {
         setSeed(seed);
         setLootTable(table);
+    }
+
+    @Override
+    public void setLock(@Nullable String lock) {
+        this.lock = Optional.ofNullable(lock).orElse("");
     }
 
     @Override
@@ -128,11 +136,11 @@ public abstract class GlowContainer extends GlowBlockState implements LootableBl
 
     @Override
     public boolean isLocked() {
-        return getLock() != null;
+        return !getLock().isEmpty();
     }
 
     @Override
-    public Inventory getSnapshotInventory() {
+    public @NotNull Inventory getSnapshotInventory() {
         // TODO
         throw new UnsupportedOperationException();
     }
